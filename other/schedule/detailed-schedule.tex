@@ -1,0 +1,42 @@
+\documentclass[10pt]{article}
+\usepackage[landscape, a4paper, margin=1cm]{geometry}
+\usepackage[x11names]{xcolor}
+\usepackage{schedule}
+\pagestyle{empty}
+
+\CellHeight{.4in}
+\CellWidth{1.4in}
+\TimeRange{07:00-24:00}
+\SubUnits{30}
+\BeginOn{Monday}
+\TextSize{\scriptsize}
+\SevenDay
+\TwentyFourHour
+
+\NewAppointment{ofis}{Wheat1}{black}
+\NewAppointment{okul}{Maroon2}{white}
+\NewAppointment{other}{SpringGreen3}{black}
+\NewAppointment{important}{Firebrick3}{white}
+\NewAppointment{task}{black}{white}
+% NavajoWhite2, Cyan1, SkyBlue2, Cyan2, Burlywood3, SteelBlue2, Goldenrod3, Honeydew3, Chartreuse3, Purple3
+% DarkSeaGreen3, Thistle3, Khaki4, DeepSkyBlue3
+
+\begin{document}
+
+\begin{schedule}[Plan]
+    \okul{MATH58F}{TB130}{M}{11:00-12:50}
+    \ofis{Ofis}{}{M}{14:00-18:00}
+
+    \okul{MATH521}{TB130}{T}{11:00-12:50}
+    \ofis{Ofis}{}{T}{14:00-18:00}
+    
+    \okul{MATH58F}{TB130}{W}{11:00-12:50}
+    \ofis{Ofis}{}{W}{14:00-18:00}
+
+    \okul{MATH521}{TB130}{Th}{11:00-12:50}
+    \ofis{Ofis}{}{Th}{14:00-18:00}
+
+    \ofis{Ofis}{}{F}{09:30-18:30}
+\end{schedule}
+
+\end{document}

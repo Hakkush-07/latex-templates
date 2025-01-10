@@ -1,0 +1,92 @@
+\documentclass[11pt, a4paper]{awesome-cv}
+
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+\colorlet{awesome}{awesome-red}
+
+\setbool{acvSectionColorHighlight}{true}
+
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+\newcommand{\bbx}{\rule{2ex}{2ex}}
+
+\name{Name}{Surname}
+
+\email{email}
+\github{-githubusername-}
+\linkedin{-linkedin-username}
+\mobile{phone number}
+
+\begin{document}
+
+\makecvheader[C]
+
+\cvsection{Education}
+
+\begin{cventries}
+    \cventry
+    {degree}
+    {university}
+    {place}
+    {time interval}
+    {GPA: 4.00}
+\end{cventries}
+
+\cvsection{Work Experience}
+
+\begin{cventries}
+    \cventry
+    {role}
+    {company}
+    {place}
+    {Nov 2001 - Present}
+    {
+    \begin{cvitems}
+        \item {description}
+    \end{cvitems}
+    }
+\end{cventries}
+
+\cvsection{Honors \& Awards}
+
+\begin{cvhonors}
+    \cvhonor
+    {title}
+    {description}
+    {place}
+    {2024}
+\end{cvhonors}
+
+\cvsection{Projects}
+
+\begin{cventries}
+    \cventryshort
+    {title}
+    {\href{link}{\textcolor{awesome-skyblue}{\faGithub}}}
+    {
+    \begin{cvitems}
+        \item {description}
+    \end{cvitems}
+    }
+\end{cventries}
+
+\cvsection{Publications}
+
+\begin{cvhonors}
+    \cvhonor
+    {title}
+    {\href{link}{link}}
+    {status}
+    {2024}
+\end{cvhonors}
+
+\cvsection{Skills \& Interests}
+
+\begin{cvskillswithbox}
+    \cvskillwithbox
+    {skill \& interest}
+    {description}
+    {}
+\end{cvskillswithbox}
+
+\end{document}

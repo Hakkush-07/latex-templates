@@ -1,0 +1,95 @@
+\subsection{Complex Curves}
+
+The definitions, lemmas, and theorems in this section are mainly from Chapter 2 in \cite{ref:kirwan} (Kirwan).
+
+\subsubsection{Complex Algebraic Curves in $\CC^2$}
+
+\begin{definition}[complex algebraic curve]
+    $$\curveC=\{(x,y)\in\CC^2:P(x,y)=0\}$$
+    where $P(x,y)\in\CC[x,y]$ is a polynomial with no repeated factors.
+    $$d=\max\{u+v:c_{u,v}\neq 0\}$$ where $\displaystyle P(x,y)=\sum_{u,v}c_{u,v}\,x^u\,y^v$ is called the \vocab{degree} of the curve.
+\end{definition}
+
+The condition of no repeated factors is needed because of the following theorem.
+
+\begin{factx}[Hilbert's Nullstellensatz]
+    For $P(x,y),Q(x,y)\in\CC[x,y]$, $\curveC_P=\curveC_Q$ if and only if $P$ and $Q$ have the same irreducible factors, possibly occuring with different multiplicities.
+\end{factx}
+
+\begin{definition}[singularity, multiplicity and tangent lines]
+    $(a,b)\in\curveC$ is a \vocab{singularity} of $\curveC$ if $$\frac{\partial P}{\partial x}(a,b)=\frac{\partial P}{\partial y}(a,b)=0$$
+    The \vocab{multiplicity} of $\curveC$ at $(a,b)\in\curveC$ is the smallest positive integer $m$ such that $$\frac{\partial^mP}{\partial x^i\partial y^j}(a,b)\neq 0$$ for some $i\geq 0$, $j\geq 0$ such that $i+j=m$. The Taylor polynomial $$\sum_{i+j=m}\frac{\partial^mP}{\partial x^i\partial y^j}(a,b)\frac{(x-a)^i(y-b)^j}{i!j!}$$ is then homogeneous of degree $m$ and its linear factors (homogeneous polynomials factor as a product of linear polynomials) are the tangent lines to $\curveC$ at $(a,b)$. If the factors of this polynomial are all different lines, than this singularity is \vocab{ordinary}.
+\end{definition}
+
+\begin{example}
+    The cubic curve (degree 3) defined by the polynomial $P(x,y)=x^3+x^2-y^2$ has a double point (a singularity of multiplicity 2) at the point $(0,0)$ which is ordinary.
+    Although they are fundamentally different, the real algebraic curve counterpart has the following shape.
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[->] (-2.2, 0) -- (2.2, 0) node[right] {$x$};
+            \draw[->] (0, -2.2) -- (0, 2.2) node[above] {$y$};
+            \draw[scale=2.0, domain=-1:1, smooth, variable=\x, blue] plot (\x,{sqrt((\x*\x*(\x+1))});
+            \draw[scale=2.0, domain=-1:1, smooth, variable=\x, blue] plot (\x,{-sqrt((\x*\x*(\x+1))});
+        \end{tikzpicture}
+    \end{center}
+\end{example}
+
+\subsubsection{Complex Projective Space}
+
+\begin{definition}[complex projective space]
+    $\projective_n$ is the set of complex one dimensional subspaces of the complex vector space $\CC^{n+1}$. $\projective_n$ can be identified with the set of equivalence classes for the equivalence relation $\sim$ on $\CNZ$ such that $a\sim b$ if there is some $\lambda\in\CC-\{0\}$ such that $a=\lambda b$. That is, every vector of $\CNZ$ represents an element $x$ of $\projective_n$
+    $$\projective_n=\{[x_0,\cdots,x_n]:(x_0,\cdots,x_n)\in\CNZ\}$$
+    such that
+    $$[\lambda x_0,\lambda x_1,\cdots,\lambda x_n]\sim[x_0,x_1,\cdots,x_n]$$
+\end{definition}
+
+\begin{remark}
+    $\projective_n$ is $\CC^n$ with a copy of $\projective_{n-1}$ at infinity.
+\end{remark}
+
+\begin{example}
+    Adding a point at infinity to the complex plane results in a space that is topologically a sphere. Hence the complex projective line, $\projective_1$, is also known as the Riemann sphere.
+\end{example}
+
+\subsubsection{Complex Projective Curves in $\projective_2$}
+
+\begin{definition}[complex projective curve]
+    $$\curveC=\{[x,y,z]\in \projective_2:P(x,y,z)=0\}$$
+    where $P(x,y,z)\in\CC[x,y,z]$ is a non-constant homogeneous polynomial with no repeated factors. $d=\deg P$ is called the \vocab{degree} of the curve.
+\end{definition}
+
+\begin{definition}[singularity, multiplicity and tangent lines]
+    $[a,b,c]\in\projective_2$ is a \vocab{singularity} of $\curveC$ if $$\frac{\partial P}{\partial x}(a,b,c)=\frac{\partial P}{\partial y}(a,b,c)=\frac{\partial P}{\partial z}(a,b,c)=0$$
+    The \vocab{multiplicity} of $\curveC$ at $[a,b,c]\in\curveC$ is the smallest positive integer $m$ such that $$\frac{\partial^mP}{\partial x^i\partial y^j\partial z^k}(a,b,c)\neq 0$$ for some $i\geq 0$, $j\geq 0$, $k\geq 0$ such that $i+j+k=m$.
+    Tangent line to $\curveC$ at a non-singular point $[a,b,c]$ is the line $$\frac{\partial P}{\partial x}(a,b,c)x+\frac{\partial P}{\partial y}(a,b,c)y+\frac{\partial P}{\partial z}(a,b,c)z=0$$
+\end{definition}
+
+\begin{example}
+    The curve defined by $P(x,y,z)=y^2z-x^3$ has a singular point at $[0,0,1]$
+\end{example}
+
+\subsubsection{Affine and Projective Curves}
+
+Complex affine curves
+$$\curveC_1=\{(x,y)\in\CC^2:P(x,y)=0\}$$
+and complex projective curves
+$$\curveC_2=\{[x,y,z]\in \projective^2:Q(x,y,z)=0\}$$
+are different but closely related by the following lemma.
+
+\begin{lemma}
+    Let $[a,b,c]$ be a point of the projective curve $$\tilde{\curveC}=\{[x,y,z]\in \projective_2:P(x,y,z)=0\}$$
+    If $c\neq 0$, then $[a,b,c]$ is a non-singular point of $\tilde{\curveC}$ if and only if $\left(\frac{a}{c},\frac{b}{c}\right)$ is a non-singular point of the affine curve $$\curveC=\{(x,y)\in\CC^2:P(x,y,1)=0\}$$
+\end{lemma}
+
+\begin{proof}
+    The point $\left(\frac{a}{c},\frac{b}{c}\right)$ is a singular point of $\curveC$ if and only if $$P\left(\frac{a}{c},\frac{b}{c},1\right)=0=\frac{\partial P}{\partial x}\left(\frac{a}{c},\frac{b}{c},1\right)=\frac{\partial P}{\partial y}\left(\frac{a}{c},\frac{b}{c},1\right)$$
+    which by $P$ being homogeneous is equivalent to
+    $$P(a,b,c)=0=\frac{\partial P}{\partial x}(a,b,c)=\frac{\partial P}{\partial y}(a,b,c)$$
+    By the Euler relation given below
+    $$x\frac{\partial P}{\partial x}(x,y,z)+y\frac{\partial P}{\partial y}(x,y,z)+z\frac{\partial P}{\partial z}(x,y,z)=dP(x,y,z)$$
+    which can be obtained by differentiating
+    $$P(\lambda x,\lambda y,\lambda z)=\lambda^dP(x,y,z)$$
+    with respect to $\lambda$ and then setting $\lambda=1$, this happens when $\frac{\partial P}{\partial z}(a,b,c)=0$ also holds, i.e. $[a,b,c]$ is a singular point of $\tilde{\curveC}$.
+\end{proof}
+
+The focus in this paper is on non-singular curves which are curves with no singular points.

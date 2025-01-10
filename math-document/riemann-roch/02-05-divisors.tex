@@ -1,0 +1,69 @@
+\subsection{Divisors}
+
+The definitions, lemmas, and theorems in this section are mainly from Chapter 5 of \cite{ref:hampus} (Hampus) and Chapter 8 of \cite{ref:fulton} (Fulton).
+
+\begin{definition}[divisor]
+    A \vocab{divisor} $D$ on $\curveC$ is the formal sum $$D=\sum_{P\in\curveC}n_PP$$ such that $n_P\in\mathbb{Z}$ for every $P\in\curveC$ and $n_P=0$ for all but finitely many $p\in\curveC$. The \vocab{degree} of $D$ is then $$\deg(D)=\sum_{P\in\curveC}n_P$$ The set of all divisors on $\curveC$ is an Abelian group, denoted $\Div(\curveC)$, and the degree defines a homomorpism from $\Div(\curveC)$ to $\mathbb{Z}$.
+\end{definition}
+
+\begin{definition}[effective divisor]
+    If $n_P\geq 0$ for all $P\in\curveC$, then $D$ is called \vocab{effective} and denoted $D\geq 0$. $D\geq D'$ if $D-D'\geq 0$. This also means $\deg(D)\geq\deg(D')$ 
+\end{definition}
+
+\begin{definition}[principal divisor]
+    The divisor of a meromorphic function on $\curveC$
+    $$(f)=\sum_{P\in\curveC}\ord_P(f)P$$
+    is called a \vocab{principal divisor} where $\ord_P(f)$ is the order of zero (or the negative of the order of pole) at $P$. Two divisors $D$ and $D'$ are said to be \vocab{equivalent}, denoted $D\sim D'$, if $D-D'$ is a principal divisor.
+    
+    A principal divisor on $\curveC$ has degree zero. That is, any meromorphic function defined on $\curveC$ has the same number of zeros and poles, counted with multiplicities. Therefore, equivalent divisors have the same degree.
+    
+    \begin{minipage}{0.50\textwidth}
+        \begin{align*}
+            \ord_P(fg) &= \ord_P(f)+\ord_P(g) \\
+            \ord_P\left(\frac{f}{g}\right) &= \ord_P(f)-\ord_P(g) \\
+            \ord_P(f+g) &\geq \min(\ord_P(f),\ord_P(g))
+        \end{align*}
+    \end{minipage}
+    \begin{minipage}{0.10\textwidth}
+        $\implies$
+    \end{minipage}
+    \begin{minipage}{0.30\textwidth}
+        \begin{align*}
+            (fg) &= (f)+(g) \\
+            \left(\frac{f}{g}\right) &= (f)-(g) \\
+            (f+g) &\geq \min((f),(g))
+        \end{align*}
+    \end{minipage}
+\end{definition}
+
+\begin{definition}[$\mathcal{L}(D)$]
+    Let $D=\sum_{P\in\curveC}n_PP$ be a divisor on $\curveC$, then $\mathcal{L}(D)$ is the set of meromorphic functions $f$ on $\curveC$ satisfying $(f)+D\geq 0$ together with the zero function. That is, a meromorphic function $f$ on $\curveC$ belongs to $\mathcal{L}(D)$ if $f$ is holomorphic except at those $P\in\curveC$ for which $n_P>0$ and there the order of the pole is at most $n_P$, and also $f$ has a zero of order at least $-n_P$ at every $P\in\curveC$ with $n_P<0$. By the properties of principal divisors, $\mathcal{L}(D)$ is a complex vector space. Denote $l(D)=\dim(\mathcal{L}(D))$.
+\end{definition}
+
+\begin{example}
+    Let $D=2P_1-3P_2$. If $f\in\mathcal{L}(D)$, then it has a pole of order at most 2 at $P_1$ and a zero of order at least 3 at $P_2$.
+\end{example}
+
+\begin{factx}\label{corollary:ldzero}
+    If $\deg(D)<0$, then $l(D)=0$ because if $f$ is a meromorphic function on $\curveC$ such that $(f)+D\geq 0$, then $\deg(D)=\deg((f)+D)\geq 0$. Also, $\mathcal{L}(0)$ consists of only constant functions, so $l(0)=1$.
+\end{factx}
+
+\begin{factx}\label{fact:ld12}
+    If $D\sim D'$, then $l(D)=l(D')$ because if $D'=D+(g)$ where $g$ is a meromorphic function on $\curveC$, then $f\mapsto fg$ defines a isomorphism from $\mathcal{L}(D)$ to $\mathcal{L}(D')$. Also, if $D_1\leq D_2$, then $\mathcal{L}(D_1)\subset\mathcal{L}(D_2)$.
+\end{factx}
+
+\begin{lemma}\label{lemma:ldp}
+    $0\leq l(D+P)-l(D)\leq 1$ for any divisor $D$ and point $P$ on $\curveC$.
+\end{lemma}
+
+\begin{proof}
+    By \Cref{fact:ld12}, $\mathcal{L}(D)\subset\mathcal{L}(D+P)$, so $0\leq l(D+P)-l(D)$. Take a function $t$ such that $\ord_P(t)=1$ (it is called uniformizer). Consider
+    $$\phi:\mathcal{L}(D+P)\rightarrow \CC,\,f\mapsto (t^{n_P+1}f)(P)$$
+    that maps $f$ to the evaluation of $t^{n_P+1}f$ at $P$. Since $\ord_P(t^{n_P+1}f)=n_P+1+\ord_P(f)\geq 0$ for a $f\in\mathcal{L}(D+P)$, $P$ is not a pole and $\phi$ is well-defined. $\ker(\phi)$ consists of functions that has a zero at $P$ i.e. $\ord_P(t^{n_P+1}f)=n_P+1+\ord_P(f)\geq 1$. This precisely describes the functions in $\mathcal{L}(D)$. Therefore,
+    $$\mathcal{L}(D+P)/\mathcal{L}(D)\cong\CC$$
+    and $\dim(\mathcal{L}(D+P)/\mathcal{L}(D))=l(D+P)-l(D)\leq 1$.
+\end{proof}
+
+\begin{definition}[canonical divisor]
+    If $\omega$ is a meromorphic differential on $\curveC$ which is not identically zero, then we can define the divisor $(\omega)$ of $\omega$ similarly. The divisor of a meromorphic differential is called a \vocab{canonical divisor} and is denoted by $\kappa$. Any two canonical divisors are equivalent and have the same degree of $2g-2$ by Proposition 6.31 from \cite{ref:kirwan}.
+\end{definition}

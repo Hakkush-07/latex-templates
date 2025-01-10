@@ -1,0 +1,886 @@
+% !TeX program = lualatex
+\documentclass[
+	american,
+	sections numbered,
+	usenames,
+	xcolor=dvipsnames,
+	aspectratio=169,
+]{beamer}
+
+\mode<presentation>
+
+\usepackage{babel}
+\usepackage[babel]{microtype}
+\usepackage[babel]{csquotes}
+\usepackage[american]{isodate}
+
+\usepackage[T1]{fontenc}
+\usepackage{FiraMono}
+
+\usetheme[progressbar=frametitle]{metropolis}
+
+%%% GRAPHICS %%%
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+%%% MATH & SCIENCE %%%
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{siunitx}
+\usepackage{bm}
+\usepackage{dsfont}
+\usepackage{mathtools}
+
+%%% FLOATS %%%
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+%\usepackage{biblatex}
+%\bibliography{literature.bib}
+
+
+% DESIGN COLORS
+\definecolor{accent}{HTML}{7EBDC2} % accent color
+\definecolor{bgcolor}{HTML}{FCFCFF} % background color
+\definecolor{bgcolorAlt}{HTML}{ECF1FC} % alternative background color
+\definecolor{fgcolor}{HTML}{222244} % foreground/text color
+
+%
+\setbeamercolor{normal text}{%
+	fg=fgcolor,
+	bg=bgcolor,
+}
+\setbeamercolor{alerted text}{%
+	fg=accent,
+}
+\setbeamercolor{palette primary}{%
+	use=normal text,
+	fg=normal text.fg,
+	bg=bgcolorAlt,%normal text.bg
+}
+
+\setbeamercolor{block title}{
+	bg=bgcolorAlt,
+}
+\setbeamercolor{block body}{
+	bg=bgcolorAlt,
+}
+\setbeamercolor{block title alerted}{%
+	use={palette primary, alerted text},
+	fg=palette primary.bg,
+	bg=alerted text.fg
+}
+\setbeamercolor{block title example}{%
+	use={block title, alerted text},
+	bg=block title.bg,
+	fg=alerted text.fg
+}
+%
+
+\pgfplotsset{legend style={fill=bgcolor,draw=fgcolor}}
+
+% PLOT COLORS
+%% Paul Tol High Contrast
+\definecolor{plot0}{HTML}{004488}
+\definecolor{plot1}{HTML}{DDAA33}
+\definecolor{plot2}{HTML}{BB5566}
+\definecolor{plot3}{HTML}{000000}
+\definecolor{plot4}{HTML}{AAAAAA}
+
+%% Paul Tol Vibrant
+%\definecolor{plot0}{HTML}{EE7733}
+%\definecolor{plot1}{HTML}{0077BB}
+%\definecolor{plot2}{HTML}{33BBEE}
+%\definecolor{plot3}{HTML}{EE3377}
+%\definecolor{plot4}{HTML}{CC3311}
+%\definecolor{plot5}{HTML}{009988}
+%\definecolor{plot6}{HTML}{BBBBBB}
+
+\pgfplotscreateplotcyclelist{lineplot cycle}{ %
+	{plot0, mark=*, thick, mark options=solid},
+	{plot1, mark=triangle*, thick, mark options=solid},
+	{plot2, mark=square*, thick, mark options=solid},
+	{plot3, mark=diamond*, thick, mark options=solid},
+	{plot4, mark=pentagon*, thick, mark options=solid},
+}
+
+% \AtBeginEnvironment{thm}{%
+%   % \setbeamercolor{block title}{use=example text,fg=white,bg=example text.fg!75!black}
+%   \setbeamercolor{block body}{parent=normal text,use=block title example,bg=blue!75!black!10!}
+% }
+
+
+%\renewcommand*{\bibfont}{\scriptsize}
+\setbeamerfont{block body reference}{size=\scriptsize}
+\setbeamerfont{block title reference}{size=\scriptsize}
+
+\setbeamerfont{description item}{series=\mdseries}
+\setbeamerfont{alerted text}{series=\bfseries\boldmath}
+
+
+\setbeamertemplate{title page}{
+\begin{minipage}[b][\textheight]{\textwidth}
+	\ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
+	\vfill%
+	\ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+	\ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+	\usebeamertemplate*{title separator}
+
+	\ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+	\ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+	\ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+	\vfil
+	\vspace*{1mm}
+\end{minipage}
+}
+\newcommand*{\seprule}{{\par\color{bgcolorAlt!90!fgcolor}\hrulefill\par\vspace*{1ex plus 0pt minus .5ex}}}
+
+
+% Mathematical Writing
+\DeclarePairedDelimiter{\abs}{\vert}{\vert}
+\DeclarePairedDelimiter{\norm}{\Vert}{\Vert}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand*{\inv}[1]{\ensuremath{#1^{-1}}}
+\newcommand*{\positive}[1]{\ensuremath{\left[#1\right]^{+}}}
+
+\newcommand*{\diff}{\ensuremath{\mathrm{d}}}
+\newcommand*{\imag}{\ensuremath{\mathrm{j}}}
+\newcommand*{\e}{\ensuremath{\mathrm{e}}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+%% change these to \mathbb, if you do not want to use the dsfont package
+\newcommand*{\reals}{\ensuremath{\mathds{R}}} 
+\newcommand*{\complexes}{\ensuremath{\mathds{C}}}
+\newcommand*{\naturals}{\ensuremath{\mathds{N}}}
+%%
+
+\newcommand*{\expect}[2][]{\ensuremath{\mathbb{E}_{#1}\left[#2\right]}}
+
+\newcommand*{\unif}{\ensuremath{\mathcal{U}}}
+\newcommand*{\normaldist}{\ensuremath{\mathcal{N}}}
+
+
+\newcommand{\mbx}[1]{\makebox[5cm]{#1\hfill}}
+\newcommand{\poly}[2]{#1_0+#1_1x+\cdots+#1_#2x^#2}
+\newcommand{\polyh}[2]{#1_0(y,z)+#1_1(y,z)x+\cdots+#1_#2(y,z)x^#2}
+
+\newcommand{\curveC}{\mathcal C}
+\newcommand{\curveD}{\mathcal D}
+\newcommand{\resPQ}{\mathcal R_{P,Q}}
+\newcommand{\CNZ}{\CC^{n+1}-\{\vec{0}\}}
+\newcommand{\projective}{\mathbb P}
+\DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\ord}{ord}
+
+\newcommand{\CC}{\mathbb C}
+
+\newcommand{\vocab}[1]{\textbf{\color{blue}\sffamily #1}}
+
+\newcommand{\hgline}[2]{
+\pgfmathsetmacro{\thetaone}{#1}
+\pgfmathsetmacro{\thetatwo}{#2}
+\pgfmathsetmacro{\theta}{(\thetaone+\thetatwo)/2}
+\pgfmathsetmacro{\phi}{abs(\thetaone-\thetatwo)/2}
+\pgfmathsetmacro{\close}{less(abs(\phi-90),0.0001)}
+\ifdim \close pt = 1pt
+    \draw[blue] (\theta+180:1) -- (\theta:1);
+\else
+    \pgfmathsetmacro{\R}{tan(\phi)}
+    \pgfmathsetmacro{\distance}{sqrt(1+\R^2)}
+    \draw[blue] (\theta:\distance) circle (\R);
+\fi
+}
+
+\newcommand\anglex{10}
+
+\renewcommand{\H}{\mathbb{H}}
+\DeclareMathOperator{\PSL}{PSL}
+
+% THEOREMS
+\theoremstyle{plain}% default
+% \newtheorem{theorem}{Theorem}%[section]
+% \newtheorem{lemma}{Lemma}
+% \newtheorem{proposition}{Proposition}
+% \newtheorem{corollary}{Corollary}
+\newtheorem{factx}[theorem]{Fact}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{remark}[theorem]{Remark}
+% \newtheorem{example}{Example}
+
+\setbeamertemplate{theorems}[numbered]
+
+\pgfplotsset{compat=newest}
+\pgfplotsset{%
+	betterplot/.style={
+		width=.93\linewidth,
+		height=.5\textheight,
+		xlabel near ticks,
+		ylabel near ticks,
+		cycle list name=lineplot cycle,
+		mark options=solid,
+		xmajorgrids=true,
+		xminorgrids=true,
+		ymajorgrids=true,
+%		major grid style={dotted},
+		grid style={line width=.1pt, draw=gray!20},
+		major grid style={line width=.25pt,draw=gray!30},
+		legend cell align=left,
+		legend style = {
+			/tikz/every even column/.append style={column sep=0.33cm}
+		},
+	},
+}
+
+
+\title{Geometrically Finite Fuchsian Groups and Poincare Theorem}
+\author{Hakan Karakuş}
+\date{MATH58F}
+
+% \titlegraphic{\includegraphics[width=0.3\textheight]{figures/logo.png}}
+
+\begin{document}
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+% \input{content.tex}
+
+\begin{frame}{Table of contents}
+	\setbeamertemplate{section in toc}[sections numbered]
+	\tableofcontents%[hideallsubsections]
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+
+    We will look at geometrically finite Fuchsian groups and the Poincare theorem. First, some notions such as cycles and periods of the fundamental domains of Fuchsian groups are defined. Then, we look at what being geometrically finite means for a Fuchsian group. Finally, we define the signatures, which compactly represent the Fuchsian groups, and we see that almost all signatures are possible to be attained by a Fuchsian group.
+
+	\begin{exampleblock}{}
+	  {\large ``It is by logic that we prove, but by intuition that we discover. To know how to criticize is good, to know how to create is better.''}
+	  \vskip3mm
+	  \hspace*\fill{\small--- Poincare}
+	\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Introduction - Poincare Theorem}
+
+    The main theorem of this presentation:
+
+	\begin{theorem}[Poincare]
+        There exists a Fuchsian group with signature $(g;m_1,m_2,\cdots,m_r;s)$ if $g\geq 0$, $r\geq 0$, $m_i\geq 2$, $s\geq 0$ are integers and $$(2g-2)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s>0$$
+    \end{theorem}
+
+\end{frame}
+
+\section{The Structure of Dirichlet Domains}
+
+\begin{frame}{Sides, Vertices, Faces}
+
+	Dirichlet domains are bounded by geodesics and possibly segments of real axis. These bounding geodesic segments are called $\vocab{sides}$, and the intersection of them, together with elliptic points of order 2 on the segments, are called $\vocab{vertices}$. Tessellation of $\mathbb{H}$ by a Dirichlet domain $F$, $\{T(F):T\in\Gamma\}$, consists of the images of $F$ under $\Gamma$, which are called \vocab{faces}.
+
+\end{frame}
+
+\begin{frame}{Congruent Cycles and Periods}
+
+	Two points $u,v\in\mathbb{H}$ are called \vocab{congruent} if they belong to the same orbit of $\Gamma$. The congruence is an equivalence relation on the vertices of a Dirichlet domain and the equivalence classes are called \vocab{cycles}. If $u$ is fixed by an elliptic element $S$, then $v=Tu$ is fixed by $TST^{-1}$. Thus, if one vertex of a cycle is fixed by an elliptic element, then all vertices of that cycle are fixed by conjugate elliptic elements. Such a cycle is called \vocab{elliptic cycle}, vertices are called \vocab{elliptic vertices}, and the number of elliptic cycles is equal to the non-congruent elliptic points in $F$. If a point $w\in\H$ has a non-trivial stabilizer, then this stabilizer is a maximal finite cyclic subgroup of $\Gamma$. The order of non-conjugate maximal finite cyclic subgroups of $\Gamma$ are called \vocab{periods}.
+
+\end{frame}
+
+\begin{frame}{The Structure of Dirichlet Domains}
+
+    \begin{remark}
+        There is a one-to-one correspondence between the elliptic cycles of $F$ and the conjugacy classes of non-trivial maximal finite cyclic subgroups of $\Gamma$.
+    \end{remark}
+
+\end{frame}
+
+\begin{frame}{Example}
+
+    Take $\Gamma=\PSL_2(\mathbb{Z})$, the modular group, and take $F$ to be the fundamental domain below.
+
+    \begin{minipage}{0.24\textwidth}
+		\begin{center}
+        \begin{tikzpicture}[scale=1.2]
+        \draw[very thick,fill=gray!30] (0.5, 3.0) -- (0.5, 0.8660254037844386) arc (59.99999999999999:120.00000000000001:0.9999999999999999) -- (-0.5, 3.0);
+        
+        \draw[-latex] (-0.7-0.5,0) -- (0.7+0.5,0)node[below]{Re};
+        \draw[-latex] (0,0) -- (0,3.0+0.5)node[right]{Im};
+        \path(-1,0) --node[below, pos=0]{$-1$}node[below right, pos=.5]{0}node[below, pos=1]{1} (1,0) (0,1)node[below right]{$i$};
+        \end{tikzpicture}
+        \end{center}
+	\end{minipage}
+	\begin{minipage}{0.75\textwidth}
+		Vertices of $F$ are $w,w-1,i,\infty$ where $w=\frac{1}{2}+\frac{\sqrt{3}}{2}i$. Any point $u$ on the left side is congruent to $u+1$ on the right side via $z\mapsto z+1$. $w,w-1,i$ are fixed by the cyclic finite groups generated by $z\mapsto\frac{z-1}{z}$, $z\mapsto\frac{-z-1}{z}$, and $z\mapsto\frac{-1}{z}$ respectively. $w$ and $w-1$ are congruent vertices, so $\{w,w-1\}$ and $\{i\}$ are the elliptic cycles. Non-conjugate maximal finite cyclic subgroups of $\Gamma$ are $\{1,S\}$ and $\{1,U,U^2\}$ where $S:z\mapsto \frac{-1}{z}$, $T:z\mapsto z+1$, and $U=ST:z\mapsto \frac{-1}{z+1}$. A parabolic element can be considered as an infinite order elliptic element, hence the stabilizer of an element $w\in\overline{\mathbb{R}}$ is a maximal cyclic parabolic subgroup. If we allow infinite periods, then since $\{1,T,T^2,\cdots,\}$ is a maximal cyclic parabolic subgroup of $\Gamma$, the modular group has periods $2,3,\infty$.
+	\end{minipage}
+    
+\end{frame}
+
+\begin{frame}{Angle Sum of Congruent Cycle}
+
+	\begin{theorem}\label<1>{thm:2pim}
+    Let $F$ be a Dirichlet domain for $\Gamma$. Let $\theta_1,\theta_2,\cdots,\theta_t$ be the internal angles at a cycle of $F$ (there are finitely many points in a congruent cycle because $F$ is locally finite). Let $m$ be the order of the stabilizer of one of these vertices (stabilizers of two points in a congruent cycle are conjugate subgroups of $\Gamma$, so they have the same order). Then $$\theta_1+\theta_2+\cdots+\theta_t=\frac{2\pi}{m}$$
+    \end{theorem}
+
+\end{frame}
+
+\begin{frame}{Angle Sum of Congruent Cycle - Proof}
+
+	Let $v_1,v_2,\cdots,v_t$ be the vertices of the congruent cycle, $\theta_1,\theta_2,\cdots,\theta_t$ be the angles, and $$H=\{\text{Id},S,S^2,\cdots,S^{m-1}\}$$ be the stabilizer of $v_1$. Each $S^r(F)$ has a vertex at $S^r(v_1)=v_1$ with angle $\theta_1$. Now we will look at other vertices being sent to $v_1$. Suppose $T_k(v_k)=v_1$, then each $S^rT_k(F)$ has a vertex at $S^rT_k(v_k)=v_1$ with angle $\theta_k$. We have $mt$ angles surrounding $v_1$, which add up to $2\pi$.
+
+\end{frame}
+
+\begin{frame}{Angle Sum of Congruent Cycle - Example}
+
+    \begin{minipage}{0.49\textwidth}
+		\begin{center}
+        \begin{tikzpicture}[scale=1.6]
+        \draw[very thick,fill=gray!30] (0.5, 3.0) -- (0.5, 0.8660254037844386) arc (59.99999999999999:120.00000000000001:0.9999999999999999) -- (-0.5, 3.0);
+        
+        \draw[-latex] (-0.7-0.5,0) -- (0.7+0.5,0)node[below]{Re};
+        \draw[-latex] (0,0) -- (0,3.0+0.5)node[right]{Im};
+        \path(-1,0) --node[below, pos=0]{$-1$}node[below right, pos=.5]{0}node[below, pos=1]{1} (1,0) (0,1)node[below right]{$i$};
+        \end{tikzpicture}
+        \end{center}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		In the modular group, $\{w,w-1\}$ is a congruent cycle, and the sum of angles at these vertices is $\frac{\pi}{3}+\frac{\pi}{3}=\frac{2\pi}{3}$ as $m=3$. $\{i\}$ is a congruent cycle, and the angle is $\pi=\frac{2\pi}{2}$ as $m=2$.
+	\end{minipage}
+
+\end{frame}
+
+\begin{frame}{Pairing the Sides}
+
+	Sides can also be congruent. For a side $s$ and $T\in\Gamma$, if $T(s)$ is a side too, then $s$ and $T(s)$ are called \vocab{congruent sides}. Sides of $F$ fall into congruent pairs.
+
+    \begin{theorem}\label<1>{thm:genset}
+    The subset of $\Gamma$ consisting of elements pairing the sides of $F$ is a generator set for $\Gamma$.
+    \end{theorem}
+
+\end{frame}
+
+\begin{frame}{Pairing the Sides - Proof}
+
+	Let $\Gamma'$ be the group generated by the elements pairing the sides of $F$. Take $S\in\Gamma'$. For $U,V\in\Gamma$, such that $S(F)$ and $U(F)$ share a side, and $S(F)$ and $V(F)$ share a vertex, $S^{-1}U$ shares a side with $F$ and $S^{-1}V$ shares a vertex with $F$. $S^{-1}U\in\Gamma'\implies U\in\Gamma'$ and we can go to $S^{-1}V$ from $F$ by following finitely many faces sharing a side, which means $S^{-1}V\in\Gamma'\implies V\in\Gamma'$. Now we have $U,V\in\Gamma'$, so $X=\bigcup_{T\in\Gamma'}T(F)$ and $Y=\bigcup_{T\in\Gamma-\Gamma'}T(F)$ are disjoint and $X\cup Y=\H$. Any union of faces of the tessellation is closed since $F$ is locally finite, and $\H$ is connected. Therefore, $X=\H$ and $Y=\emptyset$.
+
+\end{frame}
+
+\begin{frame}{Pairing the Sides - Example}
+
+    \begin{minipage}{0.49\textwidth}
+		\begin{center}
+        \begin{tikzpicture}[scale=1.6]
+        \draw[very thick,fill=gray!30] (0.5, 3.0) -- (0.5, 0.8660254037844386) arc (59.99999999999999:120.00000000000001:0.9999999999999999) -- (-0.5, 3.0);
+        
+        \draw[-latex] (-0.7-0.5,0) -- (0.7+0.5,0)node[below]{Re};
+        \draw[-latex] (0,0) -- (0,3.0+0.5)node[right]{Im};
+        \path(-1,0) --node[below, pos=0]{$-1$}node[below right, pos=.5]{0}node[below, pos=1]{1} (1,0) (0,1)node[below right]{$i$};
+        \end{tikzpicture}
+        \end{center}
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		In the modular group, the sides $$\{\frac{1}{2}+ci:c^2\geq\frac{3}{4}\}\text{ and }\{\frac{-1}{2}+ci:c^2\geq\frac{3}{4}\}$$ are congruent via $z\mapsto z+1$. The sides $\{(\cos(\alpha),\sin(\alpha):\frac{\pi}{3}\leq\alpha\leq\frac{\pi}{2})\}$ and $\{(\cos(\alpha),\sin(\alpha):\frac{\pi}{2}\leq\alpha\leq\frac{2\pi}{3})\}$ are congruent via $z\mapsto \frac{-1}{z}$. So, the modular group is generated by $\{z\mapsto z+1,z\mapsto \frac{-1}{z}\}$.
+	\end{minipage}
+
+\end{frame}
+
+\begin{frame}{Orbifold}
+
+    Let $\Gamma$ be a Fuchsian group with $\mu(\H/\Gamma)<\infty$ and $F$ be a fundamental domain for it. The restriction of $\pi:\H\rightarrow\H/\Gamma$, $z\mapsto$ the orbit of $z$, to $F$, identifies the congruent points of $F$ that necessarily belong to $\partial F$, and makes $\H/\Gamma$ an oriented surface with possibly some marked points, corresponding to elliptic cycles, and cusps, corresponding to non-congruent vertices at infinity, and this is an \vocab{orbifold}.
+    
+\end{frame}
+
+\section{Geometry of Fuchsian Groups}
+
+\begin{frame}{Geometrically Finiteness}
+
+	A Fuchsian group is called \vocab{geometrically finite} if there exists a convex fundamental domain for $\Gamma$ with finitely many sides.
+
+    % \begin{exampleblock}
+    %     a
+    % \end{exampleblock}
+
+    \begin{theorem}[Siegel, \cite{ref:katok} (Katok) 4.1.1]
+    A Fuchsian group $\Gamma$ with a finite area is geometrically finite.
+    \end{theorem}
+
+\end{frame}
+
+\begin{frame}{Cocompactness}
+
+	A Fuchsian group $\Gamma$ is called \vocab{cocompact} if equivalently one of the following is true:
+    \begin{itemize}
+        \item $\H/\Gamma$ is compact
+        \item any Dirichlet domain $F$ for $\Gamma$ is compact
+        \item $\mu(\H/\Gamma)$ is finite and $\Gamma$ does not contain parabolic elements
+    \end{itemize}
+
+    \begin{remark}
+    There is a one-to-one correspondence between non-congruent vertices at infinity of a Dirichlet fundamental domain for a non-cocompact Fuchsian group $\Gamma$ with finite $\mu(\H/\Gamma)$ and conjugacy classes of maximal parabolic subgroups of $\Gamma$.
+    \end{remark}
+
+    Compact fundamental domains have finitely many sides. Non-compact fundamental domains with finite area have at least one vertex at infinity.
+
+\end{frame}
+
+\section{The Signature of a Fuchsian Group and Poincare Theorem}
+
+\begin{frame}{The Signature of a Fuchsian Group}
+
+	For one case, assume that $\Gamma$ is cocompact. It has finitely many sides, vertices, elliptic cycles, and periods $m_1,m_2,\cdots,m_r$. Also, $\H/\Gamma$ is an orbifold, a compact oriented surface of genus $g$. In this case, we say $\Gamma$ has a \vocab{signature} $(g;m_1,m_2,\cdots,m_r)$.
+
+    For the other case, assume that $\Gamma$ is non-cocompact. Assume that $\Gamma$ has $r$ conjugacy classes of maximal elliptic cyclic subgroups of order $m_1,m_2,\cdots,m_r$ and has $s$ conjugacy classes of maximal parabolic cyclic subgroups. Also, $\H/\Gamma$ is an orbifold with genus $g$. In this case, we say $\Gamma$ has a \vocab{signature} $(g;m_1,m_2,\cdots,m_r;s)$. $s=0$ can be considered as the first case.
+
+\end{frame}
+
+\begin{frame}{Area from the Signature}
+
+	\begin{theorem}\label{thm:sigarea}
+    Let $\Gamma$ has signature $(g;m_1,m_2,\cdots,m_r;s)$. Then 
+    $$\mu(\H/\Gamma)=2\pi\left((2g-2)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s\right)$$
+    In the cocompact case where $s=0$, we have
+    $$\mu(\H/\Gamma)=2\pi\left((2g-2)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)\right)$$
+    \end{theorem}
+
+\end{frame}
+
+\begin{frame}{Area from the Signature - Proof}
+
+	$\mu(\H/\Gamma)=\mu(F)$ and $F$ has $r$ elliptic cycles of vertices. The sum of the angles at all elliptic vertices is $\sum_{i=1}^r\frac{2\pi}{m_i}$ by Theorem \ref{thm:2pim}. There exist $s$ parabolic cycles and $t$ other cycles of vertices. The order of the stabilizer of these vertices is $\infty$ and $1$ respectively, so the sum of the angles at those vertices is $\sum_{i=1}^s\frac{2\pi}{\infty}+\sum_{i=1}^t\frac{2\pi}{1}=2\pi t$. Hence, the sum of all angles of $F$ is $$2\pi\left(t+\sum_{i=1}^r\frac{1}{m_i}\right)$$
+    The sides of $F$ are matched up by the elements of $\Gamma$. If we identify these sides, we get an orbifold of a genus $g$. It has $r+s+t$ vertices, $1$ face, and $n$ edges, where $n$ is the number of sets of identified sides. By the Euler formula, $$2-2g=\chi=(r+s+t)-n+1$$
+
+\end{frame}
+
+\begin{frame}{Gauss-Bonnet Hyperbolic Polygon Area Formula}
+
+	\begin{lemma}[Gauss-Bonnet]
+        A $n$ sided hyperbolic polygon $P$ with angles $\alpha_1,\alpha_2,\cdots,\alpha_n$ has area $$\mu(P)=(n-2)\pi+\sum_{i=1}^n\alpha_i$$
+        To prove it, simply divide the polygon into triangles and use $\mu(\triangle)=\pi-\alpha-\beta-\gamma$.
+    \end{lemma}
+
+\end{frame}
+
+\begin{frame}{Area from the Signature - Proof}
+
+	$F$ has $2n$ sides, $2$ for every matched up set. By the Gauss-Bonnet formula, we have 
+    \begin{align*}
+        \mu(F) &= (2n-2)\pi-2\pi\left(t+\sum_{i=1}^r\frac{1}{m_i}\right)\\
+        &= 2\pi\left((n-1)-t-\sum_{i=1}^r\frac{1}{m_i}\right)\\
+        &= 2\pi\left((n-1)-(1-2g+n-r-s)-\sum_{i=1}^r\frac{1}{m_i}\right)\\
+        &= 2\pi\left((2g-2)+\sum_{i=1}^r \left(1-\frac{1}{m_i}\right)+s\right)
+    \end{align*}
+
+\end{frame}
+
+\begin{frame}{Area from the Signature - Example}
+
+    \begin{minipage}{0.39\textwidth}
+		\begin{center}
+        \begin{tikzpicture}[scale=1.6]
+        \draw[very thick,fill=gray!30] (0.5, 3.0) -- (0.5, 0.8660254037844386) arc (59.99999999999999:120.00000000000001:0.9999999999999999) -- (-0.5, 3.0);
+        
+        \draw[-latex] (-0.7-0.5,0) -- (0.7+0.5,0)node[below]{Re};
+        \draw[-latex] (0,0) -- (0,3.0+0.5)node[right]{Im};
+        \path(-1,0) --node[below, pos=0]{$-1$}node[below right, pos=.5]{0}node[below, pos=1]{1} (1,0) (0,1)node[below right]{$i$};
+        \end{tikzpicture}
+        \end{center}
+	\end{minipage}
+	\begin{minipage}{0.6\textwidth}
+        The modular group has signature $(0;2,3;1)$, so 
+        $$\mu(\H/\PSL_2(\mathbb{Z}))=2\pi\left(-2+\frac{1}{2}+\frac{2}{3}+1\right)=\frac{\pi}{3}$$
+	\end{minipage}
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem}
+
+	Are all signatures possible? It is not, however, the only restriction is to get a positive area from the formula in Theorem \ref{thm:sigarea}.
+
+    \begin{theorem}[Poincare]\label<1>{thm:poincare}
+        There exists a Fuchsian group with signature $(g;m_1,m_2,\cdots,m_r;s)$ if $g\geq 0$, $r\geq 0$, $m_i\geq 2$, $s\geq 0$ are integers and $$(2g-2)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s>0$$
+    \end{theorem}
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Proof}
+
+	Take a regular $4g+r+s$ sided hyperbolic polygon in unit disc model where the vertices are $0<t<1$ Euclidean distance from the center. On the first $r$ sides, construct external isosceles hyperbolic triangles with apex angle $\frac{2\pi}{m_i}$ (in case $m_i$ is $2$, we take the midpoint of the base as the apex vertex) and on the next $s$ sides, construct isosceles hyperbolic triangles with apex angle $0$ to turn it into a polygon $P(t)$ with $4g+2r+2s$ vertices. The Figure \ref{fig:fds} depicts an example for $g=2$, $r=3$, $s=1$.
+
+\end{frame}
+
+\begin{frame}{The Signature of a Fuchsian Group - Proof}
+
+	\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=3.0]
+        \draw (0,0) circle (1);
+        \clip (0,0) circle (1);
+        \hgline{0}{180}
+        \hgline{30}{210}
+        \hgline{60}{240}
+        \hgline{90}{270}
+        \hgline{120}{300}
+        \hgline{150}{330}
+        \begin{scope}
+            \clip (0,0) circle (0.7);
+            \hgline{\anglex+30*0}{-\anglex+30*0-30}
+            \hgline{\anglex+30*1}{-\anglex+30*1-30}
+            \hgline{\anglex+30*2}{-\anglex+30*2-30}
+            \hgline{\anglex+30*3}{-\anglex+30*3-30}
+            \hgline{\anglex+30*4}{-\anglex+30*4-30}
+            \hgline{\anglex+30*5}{-\anglex+30*5-30}
+            \hgline{\anglex+30*6}{-\anglex+30*6-30}
+            \hgline{\anglex+30*7}{-\anglex+30*7-30}
+            \hgline{\anglex+30*8}{-\anglex+30*8-30}
+            \hgline{\anglex+30*9}{-\anglex+30*9-30}
+            \hgline{\anglex+30*10}{-\anglex+30*10-30}
+            \hgline{\anglex+30*11}{-\anglex+30*11-30}
+        \end{scope}
+    
+        \node[label=$v_{1}$] at ({0.7 * cos(30*1-30)}, {-0.7 * sin(30*1-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{4}$] at ({0.7 * cos(30*2-30)}, {-0.7 * sin(30*2-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{3}$] at ({0.7 * cos(30*3-30)}, {-0.7 * sin(30*3-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{2}$] at ({0.7 * cos(30*4-30)}, {-0.7 * sin(30*4-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{5}$] at ({0.7 * cos(30*5-30)}, {-0.7 * sin(30*5-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{8}$] at ({0.7 * cos(30*6-30)}, {-0.7 * sin(30*6-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{7}$] at ({0.7 * cos(30*7-30)}, {-0.7 * sin(30*7-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{6}$] at ({0.7 * cos(30*8-30)}, {-0.7 * sin(30*8-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{9}$] at ({0.7 * cos(30*9-30)}, {-0.7 * sin(30*9-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{10}$] at ({0.7 * cos(30*10-30)}, {-0.7 * sin(30*10-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{11}$] at ({0.7 * cos(30*11-30)}, {-0.7 * sin(30*11-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{12}$] at ({0.7 * cos(30*12-30)}, {-0.7 * sin(30*12-30)})[circle,fill,inner sep=1.0pt]{};
+        
+        \node[label=$w_1$] at ({0.8 * cos(15)}, {0.8 * sin(15)})[circle,fill,inner sep=1.0pt]{};
+        \begin{scope}
+            \clip (0,0) circle (0.8);
+            \clip ({0.8 * cos(15)}, {0.8 * sin(15)}) circle (0.22);
+            \hgline{10}{50}
+            \hgline{-20}{20}
+        \end{scope}
+        \node[label=$w_2$] at ({0.635 * cos(45)}, {0.635 * sin(45)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$w_3$] at ({0.9 * cos(75)}, {0.9 * sin(75)})[circle,fill,inner sep=1.0pt]{};
+        \begin{scope}
+            \clip (0,0) circle (0.9);
+            \clip ({0.9 * cos(75)}, {0.9 * sin(75)}) circle (0.28);
+            \hgline{74}{115}
+            \hgline{35}{76}
+        \end{scope}
+        \node[label=$w_4$] at ({1.0 * cos(105)}, {1.0 * sin(105)})[circle,fill,inner sep=1.0pt]{};
+        \begin{scope}
+            \clip ({1.0 * cos(105)}, {1.0 * sin(105)}) circle (0.37);
+            \hgline{105}{147}
+            \hgline{63}{105}
+        \end{scope}
+        
+        \draw[-Stealth] (-0.14+0.005,0.776-0.004) -- (-0.14,0.776) node[above]{\footnotesize $\xi_4'$};
+        \draw[-Stealth] (-0.267-0.001,0.749-0.004) -- (-0.267,0.749) node[above left]{\footnotesize $\xi_4$};
+    
+        \draw[-Stealth] (0.14-0.005,0.767-0.004) -- (0.14,0.767) node[above]{\footnotesize $\lambda_3'$};
+        \draw[-Stealth] (0.26+0.001,0.749-0.004) -- (0.26,0.749) node[right]{\footnotesize $\lambda_3$};
+    
+        \draw[-Stealth] (0.4-0.005,0.51+0.007) -- (0.4,0.51) node[below]{\footnotesize $\lambda_2'$};
+        \draw[-Stealth] (0.51+0.007,0.4-0.005) -- (0.51,0.4) node[below]{\footnotesize $\lambda_2$};
+    
+        \draw[-Stealth] (0.684-0.005,0.25+0.007) -- (0.684,0.25) node[below]{\footnotesize $\lambda_1'$};
+        \draw[-Stealth] (0.726-0.001,0.125-0.004) -- (0.726,0.125) node[right]{\footnotesize $\lambda_1$};
+        
+        \draw[-Stealth] ({0.639*cos(15+30*4)+0.01*sin(15+30*4)},{0.639*sin(15+30*4)-0.01*cos(15+30*4)}) -- ({0.639*cos(15+30*4)},{0.639*sin(15+30*4)}) node[right]{\footnotesize $\alpha_1$};
+        \draw[-Stealth] ({0.639*cos(15+30*5)+0.01*sin(15+30*5)},{0.639*sin(15+30*5)-0.01*cos(15+30*5)}) -- ({0.639*cos(15+30*5)},{0.639*sin(15+30*5)}) node[right]{\footnotesize $\beta_1'$};
+        \draw[-Stealth] ({0.639*cos(15+30*8)+0.01*sin(15+30*8)},{0.639*sin(15+30*8)-0.01*cos(15+30*8)}) -- ({0.639*cos(15+30*8)},{0.639*sin(15+30*8)}) node[above]{\footnotesize $\alpha_2$};
+        \draw[-Stealth] ({0.639*cos(15+30*9)+0.01*sin(15+30*9)},{0.639*sin(15+30*9)-0.01*cos(15+30*9)}) -- ({0.639*cos(15+30*9)},{0.639*sin(15+30*9)}) node[above]{\footnotesize $\beta_2'$};
+    
+        \draw[-Stealth] ({0.639*cos(15+30*6)-0.01*sin(15+30*6)},{0.639*sin(15+30*6)+0.01*cos(15+30*6)}) -- ({0.639*cos(15+30*6)},{0.639*sin(15+30*6)}) node[right]{\footnotesize $\alpha_1'$};
+        \draw[-Stealth] ({0.639*cos(15+30*7)-0.01*sin(15+30*7)},{0.639*sin(15+30*7)+0.01*cos(15+30*7)}) -- ({0.639*cos(15+30*7)},{0.639*sin(15+30*7)}) node[above]{\footnotesize $\beta_1$};
+        \draw[-Stealth] ({0.639*cos(15+30*10)-0.01*sin(15+30*10)},{0.639*sin(15+30*10)+0.01*cos(15+30*10)}) -- ({0.639*cos(15+30*10)},{0.639*sin(15+30*10)}) node[right]{\footnotesize $\alpha_2'$};
+        \draw[-Stealth] ({0.639*cos(15+30*11)-0.01*sin(15+30*11)},{0.639*sin(15+30*11)+0.01*cos(15+30*11)}) -- ({0.639*cos(15+30*11)},{0.639*sin(15+30*11)}) node[right]{\footnotesize $\beta_2$};
+    \end{tikzpicture}
+    \caption{The polygon $P(t)$}
+    \label<1>{fig:fds}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}[plain]
+
+	\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=5.0]
+        \draw (0,0) circle (1);
+        \clip (0,0) circle (1);
+        \hgline{0}{180}
+        \hgline{30}{210}
+        \hgline{60}{240}
+        \hgline{90}{270}
+        \hgline{120}{300}
+        \hgline{150}{330}
+        \begin{scope}
+            \clip (0,0) circle (0.7);
+            \hgline{\anglex+30*0}{-\anglex+30*0-30}
+            \hgline{\anglex+30*1}{-\anglex+30*1-30}
+            \hgline{\anglex+30*2}{-\anglex+30*2-30}
+            \hgline{\anglex+30*3}{-\anglex+30*3-30}
+            \hgline{\anglex+30*4}{-\anglex+30*4-30}
+            \hgline{\anglex+30*5}{-\anglex+30*5-30}
+            \hgline{\anglex+30*6}{-\anglex+30*6-30}
+            \hgline{\anglex+30*7}{-\anglex+30*7-30}
+            \hgline{\anglex+30*8}{-\anglex+30*8-30}
+            \hgline{\anglex+30*9}{-\anglex+30*9-30}
+            \hgline{\anglex+30*10}{-\anglex+30*10-30}
+            \hgline{\anglex+30*11}{-\anglex+30*11-30}
+        \end{scope}
+    
+        \node[label=$v_{1}$] at ({0.7 * cos(30*1-30)}, {-0.7 * sin(30*1-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{4}$] at ({0.7 * cos(30*2-30)}, {-0.7 * sin(30*2-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{3}$] at ({0.7 * cos(30*3-30)}, {-0.7 * sin(30*3-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{2}$] at ({0.7 * cos(30*4-30)}, {-0.7 * sin(30*4-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{5}$] at ({0.7 * cos(30*5-30)}, {-0.7 * sin(30*5-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{8}$] at ({0.7 * cos(30*6-30)}, {-0.7 * sin(30*6-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{7}$] at ({0.7 * cos(30*7-30)}, {-0.7 * sin(30*7-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{6}$] at ({0.7 * cos(30*8-30)}, {-0.7 * sin(30*8-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{9}$] at ({0.7 * cos(30*9-30)}, {-0.7 * sin(30*9-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{10}$] at ({0.7 * cos(30*10-30)}, {-0.7 * sin(30*10-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{11}$] at ({0.7 * cos(30*11-30)}, {-0.7 * sin(30*11-30)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$v_{12}$] at ({0.7 * cos(30*12-30)}, {-0.7 * sin(30*12-30)})[circle,fill,inner sep=1.0pt]{};
+        
+        \node[label=$w_1$] at ({0.8 * cos(15)}, {0.8 * sin(15)})[circle,fill,inner sep=1.0pt]{};
+        \begin{scope}
+            \clip (0,0) circle (0.8);
+            \clip ({0.8 * cos(15)}, {0.8 * sin(15)}) circle (0.22);
+            \hgline{10}{50}
+            \hgline{-20}{20}
+        \end{scope}
+        \node[label=$w_2$] at ({0.635 * cos(45)}, {0.635 * sin(45)})[circle,fill,inner sep=1.0pt]{};
+        \node[label=$w_3$] at ({0.9 * cos(75)}, {0.9 * sin(75)})[circle,fill,inner sep=1.0pt]{};
+        \begin{scope}
+            \clip (0,0) circle (0.9);
+            \clip ({0.9 * cos(75)}, {0.9 * sin(75)}) circle (0.28);
+            \hgline{74}{115}
+            \hgline{35}{76}
+        \end{scope}
+        \node[label=$w_4$] at ({1.0 * cos(105)}, {1.0 * sin(105)})[circle,fill,inner sep=1.0pt]{};
+        \begin{scope}
+            \clip ({1.0 * cos(105)}, {1.0 * sin(105)}) circle (0.37);
+            \hgline{105}{147}
+            \hgline{63}{105}
+        \end{scope}
+        
+        \draw[-Stealth] (-0.14+0.005,0.776-0.004) -- (-0.14,0.776) node[above]{\footnotesize $\xi_4'$};
+        \draw[-Stealth] (-0.267-0.001,0.749-0.004) -- (-0.267,0.749) node[above left]{\footnotesize $\xi_4$};
+    
+        \draw[-Stealth] (0.14-0.005,0.767-0.004) -- (0.14,0.767) node[above]{\footnotesize $\lambda_3'$};
+        \draw[-Stealth] (0.26+0.001,0.749-0.004) -- (0.26,0.749) node[right]{\footnotesize $\lambda_3$};
+    
+        \draw[-Stealth] (0.4-0.005,0.51+0.007) -- (0.4,0.51) node[below]{\footnotesize $\lambda_2'$};
+        \draw[-Stealth] (0.51+0.007,0.4-0.005) -- (0.51,0.4) node[below]{\footnotesize $\lambda_2$};
+    
+        \draw[-Stealth] (0.684-0.005,0.25+0.007) -- (0.684,0.25) node[below]{\footnotesize $\lambda_1'$};
+        \draw[-Stealth] (0.726-0.001,0.125-0.004) -- (0.726,0.125) node[right]{\footnotesize $\lambda_1$};
+        
+        \draw[-Stealth] ({0.639*cos(15+30*4)+0.01*sin(15+30*4)},{0.639*sin(15+30*4)-0.01*cos(15+30*4)}) -- ({0.639*cos(15+30*4)},{0.639*sin(15+30*4)}) node[right]{\footnotesize $\alpha_1$};
+        \draw[-Stealth] ({0.639*cos(15+30*5)+0.01*sin(15+30*5)},{0.639*sin(15+30*5)-0.01*cos(15+30*5)}) -- ({0.639*cos(15+30*5)},{0.639*sin(15+30*5)}) node[right]{\footnotesize $\beta_1'$};
+        \draw[-Stealth] ({0.639*cos(15+30*8)+0.01*sin(15+30*8)},{0.639*sin(15+30*8)-0.01*cos(15+30*8)}) -- ({0.639*cos(15+30*8)},{0.639*sin(15+30*8)}) node[above]{\footnotesize $\alpha_2$};
+        \draw[-Stealth] ({0.639*cos(15+30*9)+0.01*sin(15+30*9)},{0.639*sin(15+30*9)-0.01*cos(15+30*9)}) -- ({0.639*cos(15+30*9)},{0.639*sin(15+30*9)}) node[above]{\footnotesize $\beta_2'$};
+    
+        \draw[-Stealth] ({0.639*cos(15+30*6)-0.01*sin(15+30*6)},{0.639*sin(15+30*6)+0.01*cos(15+30*6)}) -- ({0.639*cos(15+30*6)},{0.639*sin(15+30*6)}) node[right]{\footnotesize $\alpha_1'$};
+        \draw[-Stealth] ({0.639*cos(15+30*7)-0.01*sin(15+30*7)},{0.639*sin(15+30*7)+0.01*cos(15+30*7)}) -- ({0.639*cos(15+30*7)},{0.639*sin(15+30*7)}) node[above]{\footnotesize $\beta_1$};
+        \draw[-Stealth] ({0.639*cos(15+30*10)-0.01*sin(15+30*10)},{0.639*sin(15+30*10)+0.01*cos(15+30*10)}) -- ({0.639*cos(15+30*10)},{0.639*sin(15+30*10)}) node[right]{\footnotesize $\alpha_2'$};
+        \draw[-Stealth] ({0.639*cos(15+30*11)-0.01*sin(15+30*11)},{0.639*sin(15+30*11)+0.01*cos(15+30*11)}) -- ({0.639*cos(15+30*11)},{0.639*sin(15+30*11)}) node[right]{\footnotesize $\beta_2$};
+    \end{tikzpicture}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Proof}
+
+	As $t\rightarrow 0$, $\mu(P(t))\rightarrow 0$. As $t\rightarrow 1$, the angles except for $\frac{2\pi}{m_i}$ vanish, so by the Gauss-Bonnet formula, we have $$\mu(P(t))=(4g+2r+2s-2)\pi-\sum_{i=1}^r\frac{2\pi}{m_i}=2\pi\left((2g-1)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s\right)$$
+    Since $\mu(P(t))$ is continuous, for some $\tilde{t}$ between $0$ and $1$, $\mu(P(\tilde{t}))$ becomes the desired value 
+    $$\mu(P(\tilde{t}))=2\pi\left((2g-2)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s\right)$$
+    in Theorem \ref{thm:sigarea}. We take this $P(\tilde{t})$ as our polygon $P$.
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Proof}
+
+	For any two geodesics with equal length, there exists an isometry mapping one to other. Take $A_i$, $B_j$, $X_k$, $Y_l$ for $i,j\in\{1,2,\cdots,g\}$, $k\in\{1,2,\cdots,r\}$, $l\in\{1,2,\cdots s\}$ such that
+    $$A(\alpha'_i)=\alpha_i,\qquad B(\beta'_j)=\beta_j,\qquad X(\lambda'_k)=\lambda_k,\qquad Y(\xi'_l)=Y(\xi_l)$$
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Proof}
+
+	Now, we compute the congruence classes of the vertices. $v_1$ is congruent to $v_2$ via $B_g^{-1}$. This $v_2$ is congruent to $v_3$ via $A_g^{-1}$. This $v_3$ is congruent to $v_4$ via $B_g$. Proceeding with this process, also considering the $r+s$ vertices that we build isosceles triangles on are also congruent via $X_k$ and $Y_l$, so we see that all vertices of the regular polygon that we begin with at the start form a congruent set. So, $$X_1X_2\cdots X_rY_1Y_2\cdots Y_sA_1B_1A_1^{-1}B_1^{-1}\cdots A_gB_gA_g^{-1}B_g^{-1}(v_1)=v_1$$
+    The other vertices $w_1,w_2,\cdots,w_r$ form $r$ congruent sets each with just one element.
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Proof}
+
+	Let the sum of angles at the congruent set of vertices $v_1,\cdots,v_{4g+r}$ be $\alpha$. Because of our choice of $P$, we have
+    $$\mu(P)=2\pi\left((2g-2)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s\right)$$
+    Also, by the Gauss-Bonnet formula again, we have
+    \begin{align*}
+        \mu(P) &= (4g+2r+2s-2)\pi-\left(\alpha+\sum_{i=1}^r\frac{2\pi}{m_i}\right)\\
+        &= 2\pi\left((2g-1)+\sum_{i=1}^r\left(1-\frac{1}{m_i}\right)+s\right)-\alpha
+    \end{align*}
+    So, $\alpha=2\pi$.
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Proof}
+
+	Let $\Gamma$ be the group generated by $A_i$, $B_j$, $X_k$, $Y_l$. By Theorem \ref{thm:genset}, we expect $\Gamma$ to be the group we want. The sum of angles at congruent vertices $v_1,\cdots,v_{4g+r}$ is $2\pi$, the angle at $w_k$ is $\frac{2\pi}{m_k}$, and the other angles are $0$. By Theorem \ref{thm:2pim}, $P$ is a fundamental region for $\Gamma$. $\H/\Gamma$ has $r+s+1$ congruent set of vertices, $2g+r+s$ edges, and $1$ face. By Euler formula, 
+    $$2-2g=(r+s+1)-(2g+r+s)+1$$
+    we see that it has genus $g$. There are $r$ elliptic cycles, $\{w_1\},\{w_2\},\cdots,\{w_r\}$, and their stabilizers have orders $m_1,m_2,\cdots,m_r$. There are $s$ conjugacy classes of maximal parabolic cyclic subgroups. Hence, $\Gamma$ has signature $(g;m_1,m_2,\cdots,m_r;s)$.
+
+\end{frame}
+
+\begin{frame}{The Representation of the Group}
+
+	The representation of the group $\Gamma$ with signature $(g;m_1,m_2,\cdots,m_r;s)$ is 
+    \begin{align*}
+    \Gamma=\langle &A_1,\cdots,A_g,B_1,\cdots,B_g,X_1,\cdots,X_r,Y_1,\cdots,Y_s:\\
+    &X_1^{m_1}=X_2^{m_2}=\cdots=X_r^{m_r}=\text{Id},\\
+    &X_1X_2\cdots X_rY_1Y_2\cdots Y_sA_1B_1A_1^{-1}B_1^{-1}\cdots A_gB_gA_g^{-1}B_g^{-1}=\text{Id}\rangle
+    \end{align*}
+    because $X_k$ fixes the point $w_k$ of order $m_k$ and the stabilizer of $v_1$ is trivial.
+
+\end{frame}
+
+\begin{frame}{Poincare Theorem - Example}
+
+	The minimum area possible for a non-cocompact Fuchsian group is attained by the modular group $(0;2,3;1)=(0;2,3,\infty)$
+    $$\mu(\H/(0;2,3;1))=\frac{\pi}{3}$$
+
+    The minimum area possible for a cocompact Fuchsian group is attained by $(0;2,3,7)$
+    $$\mu(\H/(0;2,3,7))=\frac{\pi}{21}$$
+
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	A Fuchsian group with the signature of the form $(0;m_1,\cdots,m_r;s)$ where $r+s=3$ is called a triangle group. We can also denote its signature with $(0;m_1,m_2,m_3)$ allowing $m_i$ to be infinity. By Theorem \ref{thm:poincare}, a triangle group exists if and only if $$\frac{1}{m_1}+\frac{1}{m_2}+\frac{1}{m_3}<1$$
+
+    There are some interesting examples of triangle groups.
+
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	The figure below shows how a triangle group can be constructed using reflections.
+    $$\Gamma=\langle R_1,R_2,R_3: R_1^2=R_2^2=R_3^2=\text{Id}\rangle\cap \PSL_2(\mathbb{R})$$
+
+    \begin{center}
+        % \includegraphics[scale=0.3]{figures/reflection-triangle.png}
+    \end{center}
+    
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	\begin{figure}
+        \centering
+        \begin{tabular}{ccc}
+        
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-3-7-blue-v2.png} &
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-3-8-blue.png} & 
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-3-i-black.png} \\
+        $(2,3,7)$ & $(2,3,8)$ & $(2,3,\infty)$ \\[6pt]
+        
+        \end{tabular}
+        \caption{Some examples of triangle groups}
+        \label{fig:tri}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	\begin{figure}
+        \centering
+        \begin{tabular}{ccc}
+        
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-4-5-black.png} &
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-4-6-red.png} & 
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-4-8-black.png} \\
+        $(2,4,5)$ & $(2,4,6)$ & $(2,4,8)$ \\[6pt]
+        
+        \end{tabular}
+        \caption{Some examples of triangle groups}
+        \label{fig:tri}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	\begin{figure}
+        \centering
+        \begin{tabular}{ccc}
+        
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-5-5-black.png} &
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-5-6-black.png} & 
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-5-i-black.png} \\
+        $(2,5,5)$ & $(2,5,6)$ & $(2,5,\infty)$ \\[6pt]
+        
+        \end{tabular}
+        \caption{Some examples of triangle groups}
+        \label{fig:tri}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	\begin{figure}
+        \centering
+        \begin{tabular}{ccc}
+        
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-6-6-red.png} &
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-6-8-black.png} & 
+        % \includegraphics[width=0.3\textwidth]{figures/hy/2-i-i-black.png} \\
+        $(2,6,6)$ & $(2,6,8)$ & $(2,\infty,\infty)$ \\[6pt]
+        
+        \end{tabular}
+        \caption{Some examples of triangle groups}
+        \label{fig:tri}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Triangle Groups}
+
+	\begin{figure}
+        \centering
+        \begin{tabular}{ccc}
+        
+        % \includegraphics[width=0.3\textwidth]{figures/hy/3-3-4-blue.png} &
+        % \includegraphics[width=0.3\textwidth]{figures/hy/5-i-i-black.png} & 
+        % \includegraphics[width=0.3\textwidth]{figures/hy/i-i-i-black.png} \\
+        $(3,3,4)$ & $(5,\infty,\infty)$ & $(\infty,\infty,\infty)$ \\[6pt]
+        
+        \end{tabular}
+        \caption{Some examples of triangle groups}
+        \label{fig:tri}
+    \end{figure}
+
+\end{frame}
+
+\appendix
+
+\begin{frame}[allowframebreaks]{References}
+	\begin{thebibliography}{9}
+        \bibitem{ref:katok} \textbf{Fuchsian Groups}, by Svetlana Katok.
+    \end{thebibliography}
+\end{frame}
+
+\end{document}

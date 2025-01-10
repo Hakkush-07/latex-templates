@@ -1,0 +1,284 @@
+\ProvidesPackage{hakan}
+\ProcessOptions\relax
+
+\usepackage{amsmath,amssymb,amsthm,thmtools}
+\usepackage[minimal]{yhmath}
+\usepackage{setspace}
+\setstretch{1.3}
+
+\PassOptionsToPackage{svgnames,dvipsnames,table}{xcolor}
+\usepackage{xcolor}
+
+\usepackage[colorlinks=true,pdfusetitle]{hyperref}
+\hypersetup{urlcolor=RubineRed,linkcolor=RoyalBlue,citecolor=ForestGreen}
+\usepackage[nameinlink]{cleveref}
+
+\usepackage[framemethod=TikZ]{mdframed}
+\usetikzlibrary{shadows}
+
+\usepackage{tikz}
+
+\title{}
+\author{Hakan Karakuş}
+\date{\today}
+
+\newcommand{\vocab}[1]{\textbf{\color{blue}\sffamily #1}}
+\newcommand{\alert}[1]{\textbf{\color{red}\sffamily #1}}
+\newcommand{\fix}[1]{\textbf{\color{green}\sffamily #1}}
+
+\newcommand{\mbx}[1]{\makebox[5cm]{#1\hfill}}
+\newcommand{\poly}[2]{#1_0+#1_1x+\cdots+#1_#2x^#2}
+\newcommand{\polyh}[2]{#1_0(y,z)+#1_1(y,z)x+\cdots+#1_#2(y,z)x^#2}
+
+\newcommand{\curveC}{\mathcal C}
+\newcommand{\curveD}{\mathcal D}
+\newcommand{\resPQ}{\mathcal R_{P,Q}}
+\newcommand{\CNZ}{\CC^{n+1}-\{\vec{0}\}}
+\newcommand{\projective}{\mathbb P}
+\DeclareMathOperator{\Div}{Div}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\ord}{ord}
+
+\newcommand{\CC}{\mathbb C}
+
+\setlength\parindent{0pt}
+\setlength\parskip{8pt}
+
+\RedeclareSectionCommand[
+  beforeskip=-\baselineskip,
+  afterskip=.2\baselineskip]{section}
+\RedeclareSectionCommand[
+  beforeskip=-.2\baselineskip,
+  afterskip=.2\baselineskip]{subsection}
+\RedeclareSectionCommand[
+  beforeskip=-.2\baselineskip,
+  afterskip=.2\baselineskip]{subsubsection}
+\RedeclareSectionCommand[
+  beforeskip=.1\baselineskip,
+  afterskip=-1em]{paragraph}
+
+\mdfdefinestyle{mdbluebox}{%
+  roundcorner=10pt,
+  linewidth=1pt,
+  skipabove=12pt,
+  innerbottommargin=9pt,
+  skipbelow=2pt,
+  linecolor=blue,
+  nobreak=true,
+  backgroundcolor=TealBlue!5,
+}
+\declaretheoremstyle[
+  headfont=\sffamily\bfseries\color{MidnightBlue},
+  mdframed={style=mdbluebox},
+  headpunct={\\[3pt]},
+  postheadspace={0pt}
+]{thmbluebox}
+
+\mdfdefinestyle{mdlightbluebox}{%
+  roundcorner=10pt,
+  linewidth=1pt,
+  skipabove=12pt,
+  innerbottommargin=9pt,
+  skipbelow=2pt,
+  linecolor=cyan,
+  nobreak=true,
+  backgroundcolor=TealBlue!3,
+}
+\declaretheoremstyle[
+  headfont=\sffamily\bfseries\color{Blue},
+  mdframed={style=mdlightbluebox},
+  headpunct={\\[3pt]},
+  postheadspace={0pt}
+]{thmlightbluebox}
+
+\mdfdefinestyle{mdyellowbox}{%
+  roundcorner=10pt,
+  linewidth=1pt,
+  skipabove=12pt,
+  innerbottommargin=9pt,
+  skipbelow=2pt,
+  linecolor=yellow,
+  nobreak=true,
+  backgroundcolor=Yellow!5,
+}
+\declaretheoremstyle[
+  headfont=\sffamily\bfseries\color{Gold},
+  mdframed={style=mdyellowbox},
+  headpunct={\\[3pt]},
+  postheadspace={0pt}
+]{thmyellowbox}
+
+\mdfdefinestyle{mdredbox}{%
+  linewidth=0.5pt,
+  skipabove=12pt,
+  frametitleaboveskip=5pt,
+  frametitlebelowskip=0pt,
+  skipbelow=2pt,
+  frametitlefont=\bfseries,
+  innertopmargin=4pt,
+  innerbottommargin=8pt,
+  nobreak=true,
+  backgroundcolor=Salmon!5,
+  linecolor=RawSienna,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\color{RawSienna},
+  mdframed={style=mdredbox},
+  headpunct={\\[3pt]},
+  postheadspace={0pt},
+]{thmredbox}
+
+\mdfdefinestyle{mdgreenbox}{%
+  skipabove=8pt,
+  skipbelow=0pt,
+  linewidth=2pt,
+  rightline=false,
+  leftline=true,
+  topline=false,
+  bottomline=false,
+  linecolor=ForestGreen,
+  backgroundcolor=ForestGreen!5,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+  bodyfont=\normalfont,
+  spaceabove=2pt,
+  spacebelow=1pt,
+  mdframed={style=mdgreenbox},
+  headpunct={ --- },
+]{thmgreenbox}
+
+\mdfdefinestyle{mdblackbox}{%
+  skipabove=8pt,
+  linewidth=3pt,
+  rightline=false,
+  leftline=true,
+  topline=false,
+  bottomline=false,
+  linecolor=black,
+  backgroundcolor=RedViolet!5!gray!5,
+}
+\declaretheoremstyle[
+  headfont=\bfseries,
+  bodyfont=\normalfont\small,
+  spaceabove=0pt,
+  spacebelow=0pt,
+  mdframed={style=mdblackbox}
+]{thmblackbox}
+
+\mdfdefinestyle{mdpurplebox}{%
+  roundcorner=10pt,
+  linewidth=1pt,
+  skipabove=12pt,
+  skipbelow=12pt,
+  innertopmargin=9pt,
+  innerbottommargin=9pt,
+  linecolor=black,
+  nobreak=true,
+  backgroundcolor=Orchid!10,
+  shadow=true,
+  shadowsize=6pt,
+  shadowcolor=black!30,
+  frametitleaboveskip=8pt,
+  frametitlebelowskip=8pt,
+  frametitlebackgroundcolor=Violet!50!black,
+  frametitlefont=\bfseries\sffamily\color{white},
+  frametitlerule=true,
+}
+\newcommand{\listhack}{$\empty$\vspace{-2em}}
+
+\theoremstyle{definition}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=section]{theorem}
+\declaretheorem[style=thmyellowbox,name=Theorem,sibling=theorem]{maintheorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmlightbluebox,name=Observation,sibling=theorem]{observation}
+\declaretheorem[style=thmlightbluebox,name=Fact,sibling=theorem]{factx}
+\declaretheorem[style=thmbluebox,name=Proposition,sibling=theorem]{proposition}
+\declaretheorem[style=thmlightbluebox,name=Corollary,sibling=theorem]{corollary}
+\declaretheorem[style=thmbluebox,name=Assumption,sibling=theorem]{assume}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmyellowbox,name=Theorem,,numbered=no]{maintheorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmbluebox,name=Proposition,numbered=no]{proposition*}
+\declaretheorem[style=thmbluebox,name=Corollary,numbered=no]{corollary*}
+\declaretheorem[style=thmbluebox,name=Assumption,numbered=no]{assume*}
+\declaretheorem[style=thmgreenbox,name=Algorithm,sibling=theorem]{algorithm}
+\declaretheorem[style=thmgreenbox,name=Algorithm,numbered=no]{algorithm*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmredbox,name=Example,sibling=theorem]{example}
+\declaretheorem[style=thmredbox,name=Example,numbered=no]{example*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+
+\declaretheoremstyle[
+  headfont=\color{blue!40!black}\normalfont\bfseries,
+  spaceabove=8pt,
+  spacebelow=8pt,
+  bodyfont=\normalfont
+]{basehead}
+
+\declaretheorem[style=basehead,name=Answer,sibling=theorem]{answer}
+\declaretheorem[style=basehead,name=Answer,numbered=no]{answer*}
+\declaretheorem[style=basehead,name=Conjecture,sibling=theorem]{conjecture}
+\declaretheorem[style=basehead,name=Conjecture,numbered=no]{conjecture*}
+\declaretheorem[style=basehead,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=basehead,name=Definition,numbered=no]{definition*}
+\declaretheorem[style=basehead,name=Exercise,sibling=theorem]{exercise}
+\declaretheorem[style=basehead,name=Exercise,numbered=no]{exercise*}
+\declaretheorem[style=basehead,name=Fact,sibling=theorem]{fact}
+\declaretheorem[style=basehead,name=Fact,numbered=no]{fact*}
+\declaretheorem[style=basehead,name=Problem,sibling=theorem]{problem}
+\declaretheorem[style=basehead,name=Problem,numbered=no]{problem*}
+\declaretheorem[style=basehead,name=Question,sibling=theorem]{ques}
+\declaretheorem[style=basehead,name=Question,numbered=no]{ques*}
+
+\Crefname{answer}{Answer}{Answers}
+\Crefname{assume}{Assumption}{Assumptions}
+\Crefname{claim}{Claim}{Claims}
+\Crefname{conjecture}{Conjecture}{Conjectures}
+\Crefname{exercise}{Exercise}{Exercises}
+\Crefname{fact}{Fact}{Facts}
+\Crefname{problem}{Problem}{Problems}
+\Crefname{ques}{Question}{Questions}
+
+\providecommand{\thetitle}{\@title}
+\providecommand{\theauthor}{\@author}
+\providecommand{\thedate}{\@date}
+
+\@ifundefined{KOMAClassName}{}{
+    \@ifundefined{chapter}{}{
+        \addtokomafont{partprefix}{\rmfamily}
+        \renewcommand*{\partformat}{\color{purple}
+            \scalebox{2.5}{\thepart}\enlargethispage{2em}}
+        \addtokomafont{chapterprefix}{\raggedleft}
+        \RedeclareSectionCommand[beforeskip=0.5em]{chapter}
+        \renewcommand*{\chapterformat}{\mbox{%
+            \scalebox{1.5}{\chapappifchapterprefix{\nobreakspace}}%
+            \scalebox{2.718}{\color{purple}\thechapter}\enskip}}
+    }
+    \renewcommand*{\sectionformat}%
+      {\color{purple}\S\thesection\enskip}
+    \renewcommand*{\subsectionformat}%
+      {\color{purple}\S\thesubsection\enskip}
+    \renewcommand*{\subsubsectionformat}%
+      {\color{purple}\S\thesubsubsection\enskip}
+    \addtokomafont{paragraph}{\color{orange!35!black}\P\ }
+    \KOMAoptions{numbers=noenddot}
+    
+    \addtokomafont{subtitle}{\Large}
+    \setkomafont{author}{\Large}
+    \setkomafont{date}{\Large\normalsize}
+    
+    \usepackage[headsepline]{scrlayer-scrpage}
+    \renewcommand{\headfont}{}
+    \addtolength{\textheight}{3.14cm}
+    \setlength{\footskip}{0.5in}
+    \setlength{\headsep}{10pt}
+    \ihead{\footnotesize\textbf{\theauthor} --- \thedate}
+    \automark{section}
+    \chead{}
+    \ohead{\footnotesize\textbf{\thetitle}}
+    \cfoot{\pagemark}
+}
+

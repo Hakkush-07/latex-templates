@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,amsmath,amsfonts,amssymb,amsthm,latexsym,geometry,color,asymptote,hyperref}
+\geometry{a4paper,total={500pt,750pt}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\setcounter{secnumdepth}{0}
+\linespread{1.0}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{8pt}
+\pagestyle{empty}
+
+\title{Title}
+\author{Hakan Karakuş}
+\date{\today}
+\pagestyle{empty}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\paragraph{Problem.} 
+
+\paragraph{Çözüm.} 
+
+\begin{center}
+    \begin{asy}
+        size(10cm);
+        real a = 1.0, b = 1.0;
+        int m = 3, n = 3;
+        real w = a*m, h = b*n;
+        pen color = RGB(80, 80, 255);
+
+        void fill_cell(int row, int column, pen color) {
+            filldraw(circle((row + 0.5, column + 0.5), 0.3), color);
+        }
+
+        fill_cell(1, 1, color);
+
+        for (int i = 0; i < n+1; ++i) {
+            draw((0, i*b) -- (w, i*b), linewidth(1.0pt));
+        }
+
+        for (int i = 0; i < m+1; ++i) {
+            draw((i*a, 0) -- (i*a, h), linewidth(1.0pt));
+        }
+    \end{asy}
+\end{center}
+
+\end{document}

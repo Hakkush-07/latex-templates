@@ -1,0 +1,66 @@
+\section{Theorem Statement and Proof}
+
+Let $D$ be a divisor on a non-singular projective curve $\curveC$ in $\projective_2$ with genus $g$, $\kappa$ be a canonical divisor on $\curveC$, and $P$ be a point on $\curveC$.
+
+Proofs of \Cref{lemma:ld_ldp} and \Cref{lemma:halfrr} are from Lemma 6.43 and Lemma 6.44 in \cite{ref:kirwan} (Kirwan).
+
+\begin{lemma}\label{lemma:ld_ldp}
+    $$0\leq l(D)-l(D-P)+l(\kappa-D+P)-l(\kappa-D)\leq 1$$
+\end{lemma}
+
+\begin{proof}
+    By \Cref{lemma:ldp}, assume simultaneously $l(D)-l(D-P)=1$ and $l(\kappa-D+P)-l(\kappa-D)=1$. Then there exists $f\in\mathcal{L}(D)-\mathcal{L}(D-P)$ and $g\in\mathcal{L}(\kappa-D+P)-\mathcal{L}(\kappa-D)$. So, $(f)+D\geq 0$ and $(g)+\kappa-D+P\geq 0$. These inequalities are actually equalities at point $P$. Adding the inequalities having this in mind, one gets $(fg)+\kappa+P\geq 0$ with an equality at $P$. So, $fg\in\mathcal{L}(\kappa+P)-\mathcal{L}(\kappa)$. This is a contradiction since $\mathcal{L}(\kappa+P)-\mathcal{L}(\kappa)=\varnothing$ by Proposition 5.15 from \cite{ref:hampus}.
+\end{proof}
+
+\begin{lemma}[Riemann's Inequality]\label{lemma:halfrr}
+    $$l(D)-l(\kappa-D)\geq\deg(D)+1-g$$
+\end{lemma}
+
+\begin{proof}
+    Let $L(x,y,z)$ define a line in $\projective_2$ and let
+    $$H=\sum_{P\in\curveC}I_P(\curveC,L)P$$
+    be a divisor of degree $d$ by Bezout theorem (\Cref{thm:bezout}). $\deg(\kappa-mH)=\deg(\kappa)-md$ and this is negative for large enough $m$. By \Cref{corollary:ldzero}, $l(\kappa-mH)=0$. For a homogeneous polynomial $Q(x,y,z)$ of degree $m$,
+    $$\frac{Q(x,y,z)}{L(x,y,z)^m}$$
+    defines a meromorphic function $f$ that satisfies $(f)+mH\geq 0$ i.e. an element of $\mathcal{L}(mH)$. For any such $Q(x,y,z)$, a function $f$ can be obtained but $Q'(x,y,z)=Q(x,y,z)+P(x,y,z)R(x,y,z)$ gives the same function $f$ for any homogeneous polynomial $R(x,y,z)$ of degree $m-d$. Hence, if $\CC_t[x,y,z]$ defines the space of homogeneous polynomials of degree $t$ whose dimension is easily found to be $|\{x^iy^jz^k:i+j+k=t\}|={t+2 \choose 2}=\frac{(t+1)(t+2)}{2}$, then
+    \begin{align*}
+        l(mH) &\geq \dim(\CC_m[x,y,z]/P(x,y,z)\CC_{m-d}[x,y,z])\\
+        &= \dim(\CC_m[x,y,z])-\dim(\CC_{m-d}[x,y,z])\\
+        &= \frac{(m+1)(m+2)}{2}-\frac{(m-d+1)(m-d+2)}{2}\\
+        &= md-g+1\\
+        &= \deg(mH)-g+1
+    \end{align*}
+    by the degree-genus formula (\Cref{thm:degree_genus}). Thus, the lemma holds for $D=mH$ when $m$ is large enough.
+    Now, the aim is, for any divisor $D=\sum_{P\in\curveC}n_PP$, and $m_0$, to find a $m\geq m_0$ and not necessarily distinct points $P_1,P_2,\cdots,P_k\in\curveC$ such that 
+    $$D+P_1+P_2+\cdots+P_k\sim mH$$
+    By adding points, $n_P\geq 0$ can be assumed. For each of the finitely many $P$ such that $n_P>0$, take a line through $P$ that intersects $\curveC$ at points (possibly with multiplicities) $Q_{1,P},Q_{2,P},\cdots,Q_{d,P}$. Since the ratio of any two linear homogeneous polynomials defines a meromorphic function, for any $P$, $$Q_{1,P}+Q_{2,P}+\cdots+Q_{d,P}\sim H$$
+    Taking $m=\deg(D)$,
+    $$mH\sim \sum_{n_P>0}n_P\sum_{i=1}^dQ_{i,P}= D+P_1+P_2+\cdots+P_k$$
+    for $k=md-m$. So, by a simple induction on \Cref{lemma:ld_ldp} and the results proven so far
+    \begin{align*}
+        l(D)-l(\kappa-D) &\geq l(D+P_1+P_2+\cdots+P_k)-l(\kappa-D-P_1-P_2-\cdots-P_k)-k\\
+        &= l(mH)-l(\kappa-mH)-k\\
+        &\geq \deg(mH)-g+1-k\\
+        &= \deg(D+P_1+P_2+\cdots+P_k)-g+1-k\\
+        &= \deg(D)-g+1
+    \end{align*}
+    as $l(mH)\geq\deg(mH)-g+1$ and $l(\kappa-mH)=0$.
+\end{proof}
+
+Now comes the main theorem of this paper that turns this inequality into an equality.
+
+\begin{maintheorem}[Riemann-Roch]\label{thm:rr}
+    $$l(D)-l(\kappa-D)=\deg(D)-g+1$$
+\end{maintheorem}
+
+\begin{proof}
+    Apply \Cref{lemma:halfrr} for $D$ and $\kappa-D$ respectively to obtain
+    $$l(D)-l(\kappa-D)\geq\deg(D)-g+1$$
+    and
+    \begin{align*}
+        l(\kappa-D)-l(D) &\geq\deg(\kappa-D)-g+1\\
+        &= \deg(\kappa)-\deg(D)-g+1\\
+        &= 2g-2-\deg(D)-g+1\\
+        &= -\deg(D)+g-1
+    \end{align*}
+    since $\deg(\kappa)=2g-2$.
+\end{proof}

@@ -1,0 +1,64 @@
+\subsection{Bezout Theorem}
+
+The definitions, lemmas, and theorems in this section are mainly from Chapter 3 in \cite{ref:kirwan} (Kirwan).
+
+\begin{theorem}[Bezout]\label{thm:bezout}
+    $\curveC$ and $\curveD$ are complex projective curves of degrees $n$ and $m$ in $\projective_2$ which have no common component. $$\sum_{p\in \curveC\cap\curveD}I_p(\curveC,\curveD)=nm$$
+\end{theorem}
+
+\begin{definition}[resultant]
+    Let $$P(x)=\poly{a}{n},$$ $$Q(x)=\poly{b}{m},$$ be polynomials of degrees $n$ and $m$ in $\CC[x]$. The \vocab{resultant} $\resPQ$ is the determinant of the $n+m$ by $n+m$ matrix
+    $$
+    \begin{pmatrix}
+        a_0 & a_1 & \cdots & a_n & 0 & 0 & & & \cdots & 0 \\
+        0 & a_0 & a_1 & \cdots & a_n & 0 & & & \cdots & 0 \\
+        \vdots & & & & & & & & & \vdots \\
+        0 & 0 & \cdots & 0 & a_0 & a_1 & & & \cdots & a_n \\
+        b_0 & b_1 & & \cdots & & b_m & 0 & & \cdots & 0 \\
+        0 & b_0 & b_1 & & \cdots & & b_m & 0 & \cdots & 0 \\
+        \vdots & & & & & & & & & \vdots \\
+        0 & \cdots & 0 & b_0 & b_1 & & & & \cdots & b_m
+    \end{pmatrix}
+    $$
+    For polynomials $$P(x,y,z)=\polyh{a}{n},$$ $$Q(x,y,z)=\polyh{b}{m},$$ the resultant $\resPQ(y,z)$ is defined similarly.
+\end{definition}
+
+\begin{observation}\label{obs:respq}
+    \textbullet\ If $P(x,y,z)$ and $Q(x,y,z)$ are homogeneous polynomials of degrees $n$ and $m$, then $\resPQ(y,z)$ is either identically 0 or a homogeneous polynomial of degree $nm$.
+    
+    \textbullet\ Polynomials $P(x)$ and $Q(x)$ have a non-constant common factor if and only if $\resPQ=0$.
+    
+    \textbullet\ Homogeneous polynomials $P(x,y,z)$ and $Q(x,y,z)$ have a non-constant common factor if and only if $\resPQ(y,z)\equiv 0$.
+
+    \textbullet\ If $P(x)=\prod_{i=0}^{n}x-\lambda_i$ and $Q(x)=\prod_{j=0}^{m}x-\mu_j$ then $$\resPQ=\prod_{0\leq i\leq n,0\leq j\leq m}\mu_j-\lambda_i$$
+    In particular, $\mathcal{R}_{P,QR}=\mathcal{R}_{P,Q}\mathcal{R}_{P,R}$
+\end{observation}
+
+\begin{theorem}\label{thm:weak_bezout}
+    Any two projective curves $\curveC$ and $\curveD$ in $\projective_2$ of degrees $n$ and $m$ intersect in at least one point and at most $nm$ points if they have no common component.
+\end{theorem}
+
+\begin{proof}
+    Let $\curveC$ and $\curveD$ are defined by homogeneous polynomials $P(x,y,z)$ and $Q(x,y,z)$ of degrees $n$ and $m$. By \Cref{obs:respq}, the resultant $\resPQ(y,z)$ is a homogeneous polynomial of degree $nm$, so the product of $nm$ linear factors of the form $bz-cy$. For any factor of the form $bz-cy$, the resultant of polynomials $P(x,b,c)$ and $Q(x,b,c)$ in $x$ is identically 0. Therefore by \Cref{obs:respq}, there exists $a\in\CC$ such that $P(a,b,c)=Q(a,b,c)=0$. Since there is at least one such pair $(b,c)$, there is a point $[a,b,c]\in\curveC\cap\curveD$.
+
+    Now suppose that $\curveC$ and $\curveD$ have more than $nm$ intersections. Choose any finite set $S$ of distinct points in $\curveC\cap\curveD$ with more than $nm$ elements. By applying a suitable projective transformation, assume that $[1,0,0]$ is not on $\curveC$ or on $\curveD$ or on a line passing through two distinct points in $S$. For any intersection point, there must be a linear factor because $b$ and $c$ can not simultaneously be zero since $[1,0,0]$ is not an intersection point. Also, any two such linear factors are different because $[1,0,0]$ is not on a line passing through two intersection points. Hence, for any intersection point, $\resPQ(y,z)$ has a different linear factor but $\resPQ(y,z)$ with more than $nm$ linear factors must be identically zero.
+\end{proof}
+
+\begin{definition}[intersection multiplicity]
+    There is a unique intersection multiplicity $I_P(\curveC,\curveD)$ defined for all projective curves $\curveC$, $\curveD$ in $\projective_2$ satisfying the following properties.
+    \begin{itemize}
+        \item $I_P(\curveC,\curveD)=I_P(\curveD,\curveC)$
+        \item $I_P(\curveC,\curveD)=\infty$ if $P$ lies on a common component and otherwise $I_P(\curveC,\curveD)$ is a non-negative integer
+        \item $I_P(\curveC,\curveD)=0$ if and only if $P\not\in\curveC\cap\curveD$
+        \item Two distinct lines meet with intersection multiplicity of 1 at their unique point of intersection.
+        \item If $\curveC:=P(x,y,z)$, $\curveC_1:=P_1(x,y,z)$, and $\curveC_2:=P_2(x,y,z)$ where $P(x,y,z)=P_1(x,y,z)P_2(x,y,z)$, then $I_P(\curveC,\curveD)=I_P(\curveC_1,\curveD)+I_P(\curveC_2,\curveD)$
+        \item If $\curveC:=P(x,y,z)$, $\curveD:=Q(x,y,z)$ have degrees $n$ and $m$, and $\mathcal{E}:=PR+Q$ where $R(x,y,z)$ is of degree $m-n$, then $I_P(\curveC,\curveD)=I_P(\curveC,\mathcal{E})$
+    \end{itemize}
+    Moreover, if $\curveC$ and $\curveD$ have no common component and by suitable selection $[1,0,0]$ does not belong to $\curveC\cap\curveD$, any line through two distinct points of $\curveC\cap\curveD$, or any tangent to $\curveC$ or $\curveD$ at a point of $\curveC\cap\curveD$, then $I_P(\curveC,\curveD)$ of any $P=[a,b,c]\in\curveC\cap\curveD$ is $\nu_{bz-cy}(\resPQ(y,z))$
+\end{definition}
+
+\begin{proof}[Proof of Bezout Theorem]
+    The resultant can be express as
+    $$\resPQ(y,z)=\prod_{i=0}^k(b_iz-c_iy)^{e_i}$$
+    where $e_1+e_2+\cdots+e_k=nm$. By the arguments in the proof of \Cref{thm:weak_bezout}, $I_{P_i}(\curveC,\curveD)=e_i$.
+\end{proof}

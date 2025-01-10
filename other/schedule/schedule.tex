@@ -1,0 +1,165 @@
+\documentclass[10pt]{article}
+\usepackage{calendar}
+\usepackage[landscape, a4paper, margin=1cm]{geometry}
+\usepackage{palatino}
+\usepackage[x11names]{xcolor}
+\usepackage[inline]{enumitem}
+
+\newcommand{\emptyday}{\day{}{\vspace{2.5cm}}}
+\newcommand{\pastday}{\day{}{\phantom{}}}
+
+\newcommand{\eventx}[2]{{\color{#1} #2} \eventskip}
+
+\newcommand{\important}[1]{\eventx{Firebrick3}{#1}}
+\newcommand{\task}[1]{\eventx{black}{#1}}
+% Thistle3, Chartreuse3, Goldenrod3, SpringGreen3, DarkSeaGreen3
+
+\begin{document}
+
+\StartingDayNumber=2
+
+\begin{center}
+	\textsc{\LARGE Schedule}
+\end{center}
+
+\begin{calendar}{\textwidth}
+
+% \BlankDay
+% \BlankDay
+% \BlankDay
+% \BlankDay
+% \BlankDay
+\BlankDay
+
+\setcounter{calendardate}{1}
+
+% 1
+\day{}{
+	\task{do stuff}
+	\important{do important stuff}
+}
+
+% 2
+\day{}{
+}
+
+% 3
+\day{}{
+}
+
+% 4
+\day{}{
+}
+
+% 5
+\day{}{
+}
+
+% 6
+\day{}{
+}
+
+% 7
+\day{}{
+}
+
+% 8
+\day{}{
+}
+
+% 9
+\day{}{
+}
+
+% 10
+\day{}{
+}
+
+% 11
+\day{}{
+}
+
+% 12
+\day{}{
+}
+
+% 13
+\day{}{
+}
+
+% 14
+\day{}{
+}
+
+% 15
+\day{}{
+}
+
+% 16
+\day{}{
+}
+
+% 17
+\day{}{
+}
+
+% 18
+\day{}{
+}
+
+% 19
+\day{}{
+}
+
+% 20
+\day{}{
+}
+
+% 21
+\day{}{
+}
+
+% 22
+\day{}{
+}
+
+% 23
+\day{}{
+}
+
+% 24
+\day{}{
+}
+
+% 25
+\day{}{
+}
+
+% 26
+\day{}{
+}
+
+% 27
+\day{}{
+}
+
+% 28
+\day{}{
+}
+
+% 29
+\day{}{
+}
+
+% 30
+\day{}{
+}
+
+% 31
+\day{}{
+}
+
+\finishCalendar
+\end{calendar}
+
+\end{document}

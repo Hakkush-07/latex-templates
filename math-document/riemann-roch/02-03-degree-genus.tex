@@ -1,0 +1,16 @@
+\subsection{Degree-Genus Formula for Non-singular Curves}
+
+\begin{definition}[genus]
+    A non-singular complex projective curve in $\projective_2$ is topologically a sphere with $g$ handles. This number $g$ is called the \vocab{genus} of the curve.
+\end{definition}
+
+\begin{theorem}[degree-genus formula]\label{thm:degree_genus}
+    For a non-singular complex projective curve of degree $d$ in $\projective_2$ with genus $g$, $$g=\frac{(d-1)(d-2)}{2}$$
+\end{theorem}
+
+Proof of \Cref{thm:degree_genus} is from Chapter 4.1 in \cite{ref:kirwan} (Kirwan).
+
+\begin{proof}[Proof (Intuitive)]
+    Consider a singular complex projective curve $\curveC$ which is union of $d$ projective lines in general position i.e. no point lies on more than two lines. A complex projective line $L$ is homeomorphic to the two dimensional unit sphere $\mathbb{S}^2$ by the stereographic projection. So, $\curveC$ is homeomorphic to a union of $d$ spheres meeting in $\frac{d(d-1)}{2}$ points. It is possible to perturb the curve by a small amount to get a non-singular curve. This perturbation turns the $\frac{d(d-1)}{2}$ intersection points into handles expect for $d-1$ points which are used to join the $d$ spheres. Hence, the number of handles is $\frac{d(d-1)}{2}-(d-1)$.
+\end{proof}
+
