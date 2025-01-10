@@ -5,3 +5,4 @@
 *.toc
 *.pre
 */auxs
+.DS_Store
