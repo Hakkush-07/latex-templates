@@ -1,0 +1,511 @@
+\documentclass[12pt]{scrartcl}
+\usepackage{hakan}
+\usepackage{asymptote}
+
+\title{2025 Kış Kampı - Lise}
+\date{30-31 Ocak 2025}
+
+\begin{document}
+
+\maketitle
+
+\section*{Evirtim}
+
+% İki arkadaş bir adada mahsur kalırlar. Adada yiyecek olarak sadece üzerlerinde birer hindistan cevizi olan iki yüksek ağaç vardır. İçlerinden biri, ağaçların birine tırmanır, hindistan cevizini alıp yere iner, ve yer. İkinci kişi ise diğer ağaca çıkar, hindistan cevizini alıp yere iner, ve diğer ağaca tırmanıp onun üstüne bırakır. Aşağı indikten sonra der ki "Artık çözümü biliyoruz!". Bu arkadaş matematikçidir.
+
+% Evirtim yöntemi de, genellikle çok sayıda çember ve çembersel noktalar içeren bir soruya uygulanır ve bildiğimiz diğer yöntemleri uygulayarak çözümünü yapabileceğimiz bir hale getirebilir.
+
+% \subsection*{Önbilgi}
+
+% $A=\{(x,y):x,y\in\mathbb{R}\}$ ile düzlemi gösterelim. Düzleme sonsuzdaki noktanın da sembolik olarak eklenmiş halini $\overline{A}=A\cup\{\infty\}$ olarak gösterelim.
+
+% Çemberler ve doğrular, aynı kategorideki objeler olarak düşünülebilir. 
+
+\begin{definition*}
+    Evirtim, düzlemde $O$ merkezli $r$ yarıçaplı bir çembere göre tanımlanır. Bir $A$ noktasını, $OA$ ışını üzerinde $OA\cdot OB=r^2$ olacak şekilde bir $B$ noktasına götürür. Genellikle $\Psi$ ile gösterilir ($\Psi(A)=B$).
+\end{definition*}
+
+\begin{center}
+    \begin{asy}
+        import olympiad;
+        size(12cm);
+        pair O = (0, 0);
+        pair A = (0.5, 0);
+        pair B = (2.0, 0);
+        draw(unitcircle);
+        draw(O -- B, dashed);
+        dot("$O$", O, dir(90));
+        dot("$A$", A, dir(90));
+        dot("$\Psi(A)$", B, dir(90));
+    \end{asy}
+\end{center}
+
+Evirtim, çemberin içindeki noktaları dışarıya, dışındaki noktaları içeriye götürür. Ayrıca, düzlemdeki $O$ dışındaki noktalar üzerinde tanımlı bir fonksiyon olarak düşünüldüğünde, birebir ve örten olur. Tersi ile aynıdır (geometride tersi ile aynı fonksiyon örnekleri: doğruya göre veya noktaya göre simetri almak). Evirtim aslında bir çeşit "çembere göre simetri" dir.
+
+\begin{lemma*}
+    $A,B,A'=\Psi(A),B'=\Psi(B)$ çemberseldir ve
+    $$A'B'=\frac{r^2\cdot AB}{OA\cdot OB}$$
+\end{lemma*}
+
+\begin{minipage}{0.45\textwidth}
+    \begin{proof}
+        $OA\cdot OA'=OB\cdot OB'=r^2$ olduğu için $A,B,A',B'$ çemberseldir ve
+        $$\frac{A'B'}{AB}=\frac{OA'}{OB}=\frac{r^2}{OA\cdot OB}$$
+    \end{proof}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{center}
+        \begin{asy}
+            import olympiad;
+            size(8cm);
+            real ax = 0.31;
+            real ay = 0.5;
+            real bx = 0.81;
+            real by = -0.13;
+            pair O = (0, 0);
+            pair A = (ax, ay);
+            pair B = (bx, by);
+            pair C = (ax / (ax * ax + ay * ay), ay / (ax * ax + ay * ay));
+            pair D = (bx / (bx * bx + by * by), by / (bx * bx + by * by));
+            draw(unitcircle);
+            draw(D -- O -- C, dashed);
+            draw(A -- B, blue);
+            draw(C -- D, red);
+            dot("$O$", O, dir(120));
+            dot("$A$", A, dir(120));
+            dot("$B$", B, dir(270));
+            dot("$A'$", C, dir(120));
+            dot("$B'$", D, dir(270));
+        \end{asy}
+    \end{center}
+\end{minipage}
+
+\begin{lemma*}
+    Evirtim, tanımlandığı çember üzerindeki bir noktayı kendisine götürür. Ayrıca
+    \begin{itemize}
+        \item $O$ dan geçen bir doğru kendisine gider.
+        \item $O$ dan geçmeyen bir doğru, $O$ dan geçen bir çembere gider.
+        \item $O$ dan geçen bir çember, $O$ dan geçmeyen bir doğruya gider.
+        \item $O$ dan geçmeyen bir çember, $O$ dan geçmeyen bir çembere gider(Ama merkezler birbirine gitmek zorunda değil).
+    \end{itemize}
+\end{lemma*}
+
+\begin{minipage}{0.45\textwidth}
+    \begin{proof}
+        $O$ dan geçen bir doğru üzerinde alınan $A$ noktası için $A'\in OA$. $O$ dan geçmeyen bir $l$ doğrusu için ve bu doğru üzerinde alınan $A,B,C$ noktaları için $A',B',C',O$ çemberseldir çünkü $$\angle OA'B'+\angle OC'B'=\angle OBA+\angle OCA=180$$
+    \end{proof}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{center}
+        \begin{asy}
+            import olympiad;
+            size(8cm);
+            real x = 1.7;
+            real ay = 1.2;
+            real by = 0.31;
+            real cy = -1.031;
+            pair O = (0, 0);
+            pair A = (x, ay);
+            pair B = (x, by);
+            pair C = (x, cy);
+            pair D = (x / (x * x + ay * ay), ay / (x * x + ay * ay));
+            pair E = (x / (x * x + by * by), by / (x * x + by * by));
+            pair F = (x / (x * x + cy * cy), cy / (x * x + cy * cy));
+            draw(unitcircle);
+            draw(A -- B -- C);
+            draw(circumcircle(D, E, F), dashed+blue);
+            draw(O -- A, dashed);
+            draw(O -- B, dashed);
+            draw(O -- C, dashed);
+            dot("$O$", O, dir(180));
+            dot("$A$", A, dir(0));
+            dot("$B$", B, dir(0));
+            dot("$C$", C, dir(00));
+            dot("$A'$", D, dir(90));
+            dot("$B'$", E, dir(330));
+            dot("$C'$", F, dir(270));
+        \end{asy}
+    \end{center}
+\end{minipage}
+
+\begin{exercise*}(Ptolemy Teoremi)
+    Düzlemdeki $A,B,C,D$ noktaları için $ABCD$ bu sırayla çemberseldir ancak ve ancak $$AB\cdot CD+AD\cdot BC=AC\cdot BD$$
+\end{exercise*}
+
+\begin{answer*}
+    $D$ noktası merkezli herhangi bir $r$ yarıçaplı çember için evirtim uygulayalım. $A',B',C'$ noktaları bir doğru üzerinde bu sırayla bulunur. $A'C'=A'B'+B'C'$ olur, yani $$AC\cdot\frac{r^2}{DC\cdot DA}=AB\cdot\frac{r^2}{DA\cdot DB}+BC\cdot\frac{r^2}{DB\cdot DC}$$
+\end{answer*}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h58206p356408}{USAMO 1993}]
+    Köşegenleri $E$ noktasında dik kesişen $ABCD$ dörtgeninde, $E$ noktasının kenarlara göre simetriklerinin çembersel olduğunu gösterin.
+\end{problem}
+
+\begin{minipage}{0.45\textwidth}
+    \begin{answer*}
+        $A,B,C,D$ merkezli ve $E$ den geçen çemberler sırasıyla $\omega_A,\omega_B,\omega_C,\omega_D$ olsun. $P=\omega_A\cap\omega_B$. $E$ merkezli herhangi bir yarıçaplı bir evirtimde bu noktalar bir dikdörtgen oluşturur, dolayısıyla çemberseldir.
+    \end{answer*}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{center}
+        \begin{asy}
+            import olympiad;
+            size(8cm);
+            pair A = (0, 6), B = (8, 0), D = (-11, 0), C = (0, -13);
+            draw(A--B--C--D--cycle);
+            pair EE = origin;
+            pair E1 = 2*foot(EE, A, B), E2 = 2*foot(EE, C, B), E3 = 2*foot(EE, C, D), E4 = 2*foot(EE, A, D);
+            draw(EE--E1, dashed);
+            draw(EE--E2, dashed);
+            draw(EE--E3, dashed);
+            draw(EE--E4, dashed);
+            draw(circumcircle(E1, E2, E3), blue);
+            pair EE1 = foot(EE, A, B);
+            pair EE2 = foot(EE, B, C);
+            pair EE3 = foot(EE, C, D);
+            pair EE4 = foot(EE, D, A);
+            draw(EE1--EE2--EE3--EE4--cycle, linewidth(0.3));
+            draw(circumcircle(EE1, EE2, EE3), red);
+            dot("$A$", A, N);
+            dot("$B$", B, E);
+            dot("$C$", C, S);
+            dot("$D$", D, W);
+            dot("$E$", EE, S);
+            dot("$E_1$", E1, dir(E1));
+            dot("$E_2$", E2, dir(E2));
+            dot("$E_3$", E3, dir(E3));
+            dot("$E_4$", E4, dir(E4));
+            dot("$E_1'$", EE1, dir(30));
+            dot("$E_2'$", EE2, dir(295));
+            dot("$E_3'$", EE3, dir(194));
+            dot("$E_4'$", EE4, dir(150));
+            draw(A--C, dashed);
+            draw(B--D, dashed);
+        \end{asy}
+    \end{center}
+\end{minipage}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h17628p119988}{IMO 2003 SL G4}]
+    $\omega_1$ ile $\omega_3$ çemberleri, ve $\omega_2$ ile $\omega_4$ çemberleri $P$ noktasında dıştan teğettir. $\omega_1$ ile $\omega_2$, $\omega_2$ ile $\omega_3$, $\omega_3$ ile $\omega_4$, ve $\omega_4$ ile $\omega_1$ çemberleri ikinci kez sırasıyla $A,B,C,D$ noktalarında kesişiyorsa, $$\frac{AB\cdot BC}{AD\cdot DC}=\frac{PB^2}{PD^2}$$ olduğunu gösterin.
+\end{problem}
+
+\begin{minipage}{0.45\textwidth}
+    \begin{answer*}
+        $P$ noktasından herhangi bir yarıçaplı evirtim uygulanırsa, $A'B'C'D'$ bir paralelkenar olur.
+        $$\frac{r^2\cdot AB}{PA\cdot PB}=A'B'=C'D'=\frac{r^2\cdot CD}{PC\cdot PD}$$
+        $$\frac{r^2\cdot BC}{PB\cdot PC}=B'C'=A'D'=\frac{r^2\cdot AD}{PA\cdot PD}$$
+        eşitliklerini taraf tarafa çarparsak istenilen eşitlik elde edilir.
+    \end{answer*}
+\end{minipage}
+\hspace{1cm}
+\begin{minipage}{0.45\textwidth}
+    \begin{center}
+        \begin{asy}
+            import olympiad;
+            import cse5;
+            size(8cm);
+            pen my_purple = rgb(0.7,0.4,1), my_blue = rgb(0.1,0.7,1), my_green = rgb(0,0.7,0), my_orange = rgb(1,0.6,0.1), my_teal = rgb(0.1,0.8, 0.6), my_darkblue = rgb(0.1, 0.1, 0.6);
+            pair P = origin;
+            draw(circle((0,3/2), 3/2), my_blue);
+            draw(circle((0,-3), 3), my_blue);
+            draw(circle((-2,1), sqrt(5)), my_green);
+            draw(circle((8/3,-4/3), 4*sqrt(5)/3), my_green);
+            pair A[] = intersectionpoints(circle((0,3/2), 3/2),circle((-2,1), sqrt(5)));
+            pair A = A[0];
+            pair B[] = intersectionpoints(circle((0,3/2), 3/2),circle((8/3,-4/3), 4*sqrt(5)/3));
+            pair B = B[1];
+            pair C[] = intersectionpoints(circle((8/3,-4/3), 4*sqrt(5)/3), circle((0,-3), 3));
+            pair C = C[1];
+            pair D[] = intersectionpoints(circle((-2,1), sqrt(5)), circle((0,-3), 3));
+            pair D = D[0];
+            draw(A--B--C--D--cycle, my_orange+dashed);
+            dot(A^^B^^C^^D^^P);
+            real a = distance(A,P);
+            real r= 1.8;
+            pair Ai = (r/a)^2 * A;
+            real b = distance(B,P);
+            pair Bi = (r/b)^2 * B;
+            real c= distance(C,P);
+            pair Ci = (r/c)^2 * C;
+            real d = distance(D,P);
+            pair Di = (r/d)^2 * D;
+            dot(Ai^^Bi^^Ci^^Di);
+            draw(Ai--Bi--Ci--Di--cycle, my_teal+dotted);
+            draw(circle(P,r), my_darkblue+dotted);
+            label("$A$", A, dir(90));
+            label("$A^*$", Ai, dir(90));
+            label("$B$", B, dir(60));
+            label("$B^*$", Bi, 1.5*dir(90));
+            label("$C$", C, dir(C));
+            label("$C^*$", Ci, 0.3*dir(C));
+            label("$D$", D, dir(D));
+            label("$D^*$", Di, dir(D));
+            label("$P$", P, dir(A));
+        \end{asy}
+    \end{center}
+\end{minipage}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h2702342p23473903}{Kendim}]
+    $A,B,C,D$ noktaları bir $\omega$ çemberi üzerinde bu sırayla bulunan noktalardır. $AC$ ve $BD$ doğruları $E$ de kesişiyor. $AE$ doğru parçasına $P$ de, $BE$ doğru parçasına $Q$ da teğet olan bir çember $\omega$ ya içten $X$ de teğettir. $PQC$ ve $PQD$ üçgenlerinin çevrel çemberleri $\omega$ ile ikinci kez sırasıyla $K$ ve $L$ de kesişiyor. $AB$, $KL$, ve $\omega$ ya $X$ de teğet olan doğrunun noktadaş olduğunu gösterin.
+\end{problem}
+
+\begin{answer*}
+    $AB$ ve $X$ den geçip $\omega$ ya teğet olan doğru $M$ de kesişsin. $X$ merkezli evirtim uygulayalım. $X$ noktası orijin ve $M$ noktası $x$ ekseni üzerinde olacak şekilde tüm küçük harflerle evirtim altındaki noktaların $x$ koordinatlarını gösterelim. $XM$ doğrusu, $XPQ$ çemberi, ve $\omega$ çemberi evirtim altında 3 paralel doğruya gider. $P'Q'\parallel C'K'D'L'$ olduğu için $P'Q'C'K'$ ve $P'Q'D'L'$ ikizkenar yamuk olur ve $p+q=c+k=d+l$ elde ederiz. $ABM$, $APC$ ve $BQD$ doğruları sırasıyla $X'A'B'M'$, $X'A'P'C'$, $X'B'Q'D'$ çemberlerine gider. $X'M'\parallel A'B'$ olduğu için $X'A'B'M'$ ikizkenar yamuk olur ve $x+m=a+b$ elde ederiz. $X'A'P'C'$, $X'B'Q'D'$ çemberleri ve $P'Q'$ doğrusu teğet olduğu için $a+c=2p$ ve $b+d=2q$ elde ederiz. Aşağıdaki eşitlikten dolayı $X'K'L'M'$ çemberseldir ve $K,L,M$ doğrusal olur.
+    $$k+l=(p+q-c)+(p+q-d)=2p+2q-c-d=(a+c)+(b+d)-c-d=a+b=x+m$$
+\end{answer*}
+
+\begin{center}
+    \begin{asy}
+        size(14cm);
+        defaultpen(fontsize(8pt));
+        import olympiad;
+
+        real r = 0.4;
+        pair O = (0, 1 - r);
+        pair X = dir(90);
+        pair A = dir(150), B = dir(70);
+        pair P = tangent(A, O, r, 1), Q = tangent(B, O, r, 2);
+        pair C = intersectionpoints(A -- (5 * P - 4 * A), unitcircle)[0];
+        pair D = intersectionpoints(B -- (15 * Q - 14 * B), unitcircle)[0];
+        pair E = extension(A, C, B, D);
+        pair K = intersectionpoints(circumcircle(P, Q, C), unitcircle)[0];
+        pair L = intersectionpoints(circumcircle(P, Q, D), unitcircle)[0];
+        pair M = extension(K, L, A, B);
+        draw(unitcircle);
+        draw(circle(O, r));
+        draw(A -- C ^^ B -- D);
+        draw(A -- B);
+        draw(X -- M -- B ^^ M -- K, dashed);
+        draw(circumcircle(P, Q, C), dashed);
+        draw(circumcircle(P, Q, D), dashed);
+        dot("$X$", X, dir(90));
+        dot("$A$", A, dir(150));
+        dot("$B$", B, dir(70));
+        dot("$P$", P, dir(120));
+        dot("$Q$", Q, dir(60));
+        dot("$C$", C, dir(330));
+        dot("$D$", D, dir(290));
+        dot("$E$", E, dir(50));
+        dot("$K$", K, dir(40));
+        dot("$L$", L, dir(60));
+        dot("$M$", M, dir(90));
+    \end{asy}
+\end{center}
+
+\begin{center}
+    \begin{asy}
+        size(14cm);
+        defaultpen(fontsize(8pt));
+        import olympiad;
+
+        pair A = (-1.5, 0), D = (-1.0, 0), C = (-0.3, 0), K = (0, 0), L = (0.7, 0), B = (2.2, 0);
+        pair P = (-0.9, -0.7), Q = (0.6, -0.7);
+        pair X = intersectionpoints(circumcircle(A, P, C), circumcircle(B, Q, D))[0];
+        pair M = intersectionpoints(circumcircle(X, A, B), X + (-0.3, 0) -- X + (4.0, 0))[0];
+        draw(A + (-0.3, 0) -- B + (0.3, 0));
+        draw(X + (-0.3, 0) -- X + (3.6, 0));
+        draw(P + (-0.3, 0) -- Q + (0.3, 0));
+        dot("$X'$", X, dir(90));
+        dot("$A'$", A, dir(90));
+        dot("$D'$", D, dir(90));
+        dot("$C'$", C, dir(90));
+        dot("$K'$", K, dir(90));
+        dot("$L'$", L, dir(90));
+        dot("$B'$", B, dir(90));
+        dot("$P'$", P, dir(90));
+        dot("$Q'$", Q, dir(90));
+        dot("$M'$", M, dir(90));
+    \end{asy}
+\end{center}
+
+\begin{remark*}
+    Evirtim (doğrular ve çemberler arasındaki) açıları korur.
+\end{remark*}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h1802915p11979394}{Türkiye EGMO TST 2019}]
+    Bir $ABC$ üçgeninde $M$ noktası $BC$ nin orta noktasıdır ve $P$ noktası $MA$ üzerinde alınan bir noktadır. $\angle ABP$ ve $\angle ACP$ açılarının iç açıortayları $Q$ da kesişiyor. $\angle BQC=90$ ise $Q$ nun $MA$ üzerinde olduğunu gösterin.
+\end{problem}
+
+\begin{answer*}
+    $A$ merkezli herhangi bir yarıçaplı evirtim uygulayalım. $\angle ABQ=\alpha$ ve $\angle ACQ=\beta$ olsun. $\angle B'Q'C'=\angle B'Q'A+\angle C'Q'A=\alpha+\beta$. $\angle BQA+\angle CQA=270$ olduğu için $\angle B'Q'A+\angle C'Q'A=270$. $\angle B'AC'=90-\alpha-\beta$. $\angle B'P'C'=\angle B'P'A+\angle C'P'A=2\alpha+2\beta=180-2\angle BAC$. $P'$ noktası $AB'C'$ nin simedyanı üzerinde bulunan $\angle B'P'C'=180-2\angle A$ olacak şekilde bulunan bir nokta olduğu için $B'$ ve $C'$ den çevrel çembere çizilen teğetlerin kesişim noktasıdır, yani $B'P'=C'P'$.
+    $$B'P'=\frac{r^2 \cdot BP}{AB \cdot AP}$$
+    $$C'P'=\frac{r^2 \cdot CP}{AC \cdot AP}$$
+    Bu iki eşitlikten $$\frac{AB}{PB}=\frac{AC}{PC}$$ olur ve $Q$ noktası $MA$ üzerinde olur.
+\end{answer*}
+
+\subsection*{$H$ Merkezli Evirtim}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h3463945p33476786}{Türkiye MO 2024}]
+    Bir $ABC$ üçgeninde $D,E,F$ yükseklik ayakları ve $H$ diklik merkezidir. $(DEF)$ çemberine $D$ de teğet olan bir çember $EF$ yi $P$ ve $Q$ da kesiyor. $PH$ ve $QH$ doğruları $BHC$ üçgeninin çevrel çemberini ikinci kez $R$ ve $S$ de kesiyor. $T$ noktası $BC$ üzerinde $AT\perp EF$ olan nokta ise $R,S,D,T$ çemberseldir gösterin.
+\end{problem}
+
+\begin{answer*}
+    $AD\cap EF=X$ ve $EF\cap BC=K$ olsun. $\angle KDX=90^{\circ}$ ve $\angle EDX=\angle FDX$ olduğundan $(K,X;F,E)=-1$ olur. Benzer şekilde $\angle PDX=\angle FDX-\angle FDP=\angle EDX-(\angle PQD-\angle FED)=\angle QDX$ olduğundan $(K,X;P,Q)=-1$ olur. $XH\cap (BHC)=Z$ ve $KH\cap (BHC)=N$ ve $RS\cap BC=L$ olsun. $H$ noktasından $(BHC)$ çemberine çekince harmonik noktalar $(N,Z;C,B)=-1$ ve $(N,Z;R,S)=-1$ olur. Bu durumda $N$ ve $Z$ den $(BHC)$ çemberine çizilen teğetler hem $BC$ hem de $RS$ üzerinde kesişir, yani $LZ$ doğrusu $(BHC)$ ye teğet olur. $LZ^2=LA^2=LR\cdot LS$ ve $\angle LAT=90^{\circ}$ olduğu için $LA^2=LD\cdot LT=LR\cdot LS$ olduğundan $R,S,D,T$ çembersel olur. 
+\end{answer*}
+
+\begin{center}
+    \begin{asy}
+        import olympiad;
+        size(14cm);
+        pair A = dir(120), B = dir(215), C = dir(325);
+        pair D = foot(A, B, C), E = foot(B, A, C), F = foot(C, A, B);
+        pair O = circumcenter(A, B, C);
+        pair H = orthocenter(A, B, C);
+        pair P = 0.85 * F + 0.15 * E;
+        pair Q = extension(extension(A, P, B, C), H, E, F);
+        pair R = intersectionpoints(P -- (21 * H - 20 * P), circumcircle(B, H, C))[1];
+        pair S = intersectionpoints(Q -- (21 * H - 20 * Q), circumcircle(B, H, C))[1];
+        pair T = extension(A, O, B, C);
+        pair Z = 2 * D - A;
+        pair K = extension(B, C, E, F);
+        pair L = extension(B, C, R, S);
+        pair X = extension(E, F, A, D);
+        pair N = intersectionpoints(H -- (2 * H - K), circumcircle(B, H, C))[1];
+        draw(A -- B -- C -- cycle);
+        draw(A -- D ^^ B -- E ^^ C -- F);
+        draw(E -- F);
+        draw(R -- P ^^ S -- Q);
+        draw(A -- Z);
+        draw(K -- E ^^ A -- L -- R ^^ B -- L);
+        draw(K -- N);
+        draw(A -- T);
+        draw(unitcircle);
+        draw(circumcircle(B, H, C));
+        draw(circumcircle(D, E, F));
+        draw(circumcircle(D, P, Q));
+        draw(circumcircle(R, T, S), dashed);
+        dot("$A$", A, dir(120));
+        dot("$B$", B, dir(270));
+        dot("$C$", C, dir(0));
+        dot("$D$", D, dir(300));
+        dot("$E$", E, dir(70));
+        dot("$F$", F, dir(140));
+        dot("$H$", H, dir(0));
+        dot("$O$", O, dir(270));
+        dot("$P$", P, dir(90));
+        dot("$Q$", Q, dir(90));
+        dot("$R$", R, dir(315));
+        dot("$S$", S, dir(225));
+        dot("$T$", T, dir(270));
+        dot("$Z$", Z, dir(270));
+        dot("$K$", K, dir(90));
+        dot("$L$", L, dir(150));
+        dot("$X$", X, dir(340));
+        dot("$N$", N, dir(90));
+    \end{asy}
+\end{center}
+
+\begin{answer*}[Evirtim]
+    $(K,X;F,E)=-1$ ve $(K,X;P,Q)=-1$ bir önceki çözümdeki gibi bulunur. $H$ merkezli $A$ yı $D$ ye götüren $-\sqrt{HA\cdot HD}$ yarıçaplı evirtimi uygulayalım. $A-D$, $B-E$, $C-F$ birbirine gider. $EF$ doğrusu $(BHC)$ çemberine gider. $P$ ve $Q$ noktaları $EF$ üzerinde olduğu için $(BHC)$ çemberi üzerine gider ve $H,P,P'$ doğrusal olan $P'$ noktası $R$ olur. Yani $P-R$ ve $Q-S$ birbirine gider. $BC$ doğrusu $AEHF$ çemberine gider. $T$ noktası $HT$ ve $AEHF$ çemberinin kesişimine gider. Bu nokta $J$ olsun. $R,S,D,T$ çemberselliği için $P,Q,A,J$ çemberselliğini gösterelim. 
+
+    Şimdi de $A$ merkezli $H$ yi $D$ ye götüren $\sqrt{AH\cdot AD}$ evirtimi uygulayalım. $F-B$, $E-C$ birbirine gider. $EF$ doğrusu $(ABC)$ çemberine gittiği için $P$ ve $Q$, $AP$ ve $AQ$ doğrularının $(ABC)$ çemberi ile kesişimlerine, onlara $U$ ve $V$ diyelim, gider. $AH\cap (ABC)=Y$ ve $AK\cap (ABC)=M$ olsun. $(K,X;F,E)=-1$ ve $(K,X;P,Q)=-1$ harmoniklerini $A$ noktasından $ABC$ üçgenine çekersek $(M,Y;B,C)=-1$ ve $(M,Y;U,V)=-1$ buluruz. $M$ ve $Y$ den $(ABC)$ ye çizilen teğetler hem $BC$ hem de $UV$ üzerinde kesişir, o noktaya $I$ diyelim. $Y$ den $(ABC)$ ye çizilen teğet ile $H$ den $(BHC)$ ye çizilen teğetler $BC$ ye göre simetriktir, yani o da $I$ dan geçer. Açılardan $IH\parallel EF\perp AT$ gelir. Yani $AIT$ üçgenin yükseklik merkezi $H$ dir. $AJH=90$ olduğu için, $A,J,I$ doğrusaldır ve $I-J$ evirtim altında birbirine gider. $I,U,V$ doğrusal olduğu için evirtim uygulanınca $P,Q,A,J$ çembersel olur. 
+\end{answer*}
+
+\begin{center}
+    \begin{asy}
+        size(14cm);
+        defaultpen(fontsize(8pt));
+        import olympiad;
+        
+        pair A = dir(120), B = dir(215), C = dir(325);
+        pair D = foot(A, B, C), E = foot(B, A, C), F = foot(C, A, B);
+        pair O = circumcenter(A, B, C);
+        pair H = orthocenter(A, B, C);
+        pair P = 0.85 * F + 0.15 * E;
+        pair Q = extension(extension(A, P, B, C), H, E, F);
+        pair R = intersectionpoints(P -- (21 * H - 20 * P), circumcircle(B, H, C))[1];
+        pair S = intersectionpoints(Q -- (21 * H - 20 * Q), circumcircle(B, H, C))[1];
+        pair T = extension(A, O, B, C);
+        pair K = extension(B, C, E, F);
+        pair X = extension(A, H, E, F);
+        pair Y = 2 * D - H;
+        pair J = foot(A, H, T);
+        pair I = extension(B, C, A, J);
+        pair U = intersectionpoint(P -- (3 * P - 2 * A), circumcircle(A, B, C));
+        pair V = intersectionpoint(Q -- (3 * Q - 2 * A), circumcircle(A, B, C));
+        draw(A -- B -- C -- cycle);
+        draw(A -- D ^^ B -- E ^^ C -- F);
+        draw(E -- F);
+        draw(R -- P ^^ S -- Q);
+        draw(A -- Y);
+        draw(B -- K -- E);
+        draw(J -- H -- T, dashed);
+        draw(A -- J -- I, dashed);
+        draw(I -- U -- V, dashed);
+        draw(unitcircle);
+        draw(circumcircle(B, H, C));
+        draw(circumcircle(D, E, F));
+        draw(circumcircle(D, P, Q));
+        draw(circumcircle(R, T, S), dashed);
+        dot("$A$", A, dir(120));
+        dot("$B$", B, dir(180));
+        dot("$C$", C, dir(0));
+        dot("$D$", D, dir(270));
+        dot("$E$", E, dir(70));
+        dot("$F$", F, dir(140));
+        dot("$H$", H, dir(0));
+        dot("$O$", O, dir(270));
+        dot("$P$", P, dir(90));
+        dot("$Q$", Q, dir(90));
+        dot("$R$", R, dir(315));
+        dot("$S$", S, dir(225));
+        dot("$T$", T, dir(270));
+        dot("$K$", K, dir(90));
+        dot("$X$", X, dir(60));
+        dot("$Y$", Y, dir(60));
+        dot("$I$", I, dir(140));
+        dot("$J$", J, dir(140));
+        dot("$U$", U, dir(270));
+        dot("$V$", V, dir(270));
+    \end{asy}
+\end{center}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h3317352p30666003}{Tayland 2024}]
+    Bir $ABC$ üçgeninin diklik merkezi $H$ ve $A$ dan inilen yükseklik ayağı $D$ dir. Çevrel çember üzerinde $\angle BSH=\angle CTH=90$ olacak şekilde $S$ ve $T$ noktaları alınıyor. $AH=2HD$ ise $D,S,T$ doğrusaldır gösterin.
+\end{problem}
+
+\begin{answer*}
+    $H$ merkezli $A$ yı $D$ ye götüren evirtimi uygulayalım. $BDHS$ çemberi $AC$ doğrusuna gittiğinden ve $ABC$ nin çevrel çemberi 9 nokta çemberine gittiğinden $S$ noktası $AC$ nin orta noktasında gider. $AB$ ve $AC$ nin orta noktası $E$ ve $F$ olsun. $AEF$ nin çevrel çemberi $H$ dan geçer çünkü $ABC$ nin çevrel çemberi $A$ nın $H$ a göre simetriğinden geçer. $AEFH$ çembersel olması $D,S,T$ doğrusaldır demektir.
+\end{answer*}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h1665477p10581507}{ELMO SL 2018}]
+    Bir $ABC$ üçgeninin yükseklik ayakları $D,E,F$ dir. $DEF$ nin çevrel çemberi üzerinde bir $P$ noktası alınıyor. $EPH$ nin çevrel çemberi $CH$ yi $Q$ da, $FPH$ nin çevrel çemberi $BH$ yi $R$ de kesiyorsa ve $BC$ nin orta noktası $M$ ise, $Q,R,M$ doğrusaldır gösterin.
+\end{problem}
+
+\begin{answer*}
+    $H$ merkezli $A$ yı $D$ ye götüren evirtimi uygulayalım. $(DEF)$ çemberi $(ABC)$ çemberine gittiği için $P'$ noktası $(ABC)$ üzerinde bir nokta olur. $(EPH)$ çemberi $P'B$ doğrusuna, $(FPH)$ çemberi $P'C$ doğrusuna gider. $Q'=BP'\cap CH$ ve $R'=CP'\cap BH$ olur. $M$ noktası $MH$ doğrusu ile $(AEFH)$ çemberinin kesişimine gider, o nokta $K$ olsun. $K,H,Q',R'$ çembersel olduğunu göstermeliyiz. $\angle Q'P'C=\angle BAC=\angle R'HC$ olduğu için $H,Q',P',R'$ çemberseldir. $\angle KHF=\angle KAB==\angle KP'Q'$ olduğu için $K,H,Q',P'$ çemberseldir. Bu iki çembersellikten soru biter. 
+\end{answer*}
+
+\subsection*{$\sqrt{bc}$ Evirtimi}
+
+$A$ merkezli $\sqrt{bc}$ yarıçaplı evirtim ve sonrasında $A$ nın içaçıortayına göre simetri işlemi, $B$ ve $C$ yi birbirine götürür.
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h3271007p30095354}{Sharygin 2024}]
+    Bir $ABC$ üçgeninin çevrel çemberi $\omega$ dır. $A$ nın içaçıortayı $BC$ ve $\omega$ yı sırasıyla $L$ ve $S$ de kesiyor. $A$ dan $\omega$ ya çizilen teğet $BC$ yi $T$ de kesiyor. $BC$ kenarı üzerinde $BL=CK$ olacak şekilde $K$ alınıyor. $TS$ doğrusu $\omega$ yı ikinci kez $P$ de kesiyor. $\angle BAP=\angle CAK$ olduğunu gösterin.
+\end{problem}
+
+\begin{answer*}
+    $A$ dan $BC$ ye çizilen paralel $\omega$ yı $D$ de kessin. $\sqrt{bc}$ evirtimi ve iç açıortaya göre simetri uygulayalım. $B-C$, $L-S$, $D-T$ birbirine gider. $DKLA$ çemberseldir. $TS$ doğrusu $DLA$ çemberine gider. Yani $K-P$ birbirine gider ve soru biter.
+\end{answer*}
+
+\begin{problem}[\href{https://artofproblemsolving.com/community/c6h3193248p29137280}{Israil 2024}]
+    Bir $ABC$ üçgeninin içteğet merkezi $I$ dır ve $A$ nın karşısındaki dışteğet çemberin merkezi $J$ olup $BC$ ye $D$ de teğettir. $BAC$ yayının orta noktası $N$ ve $NI$ nın $ABC$ nin çevrel çemberini kestiği nokta $T$ dir. $AID$ üçgeninin çevrel merkezi $K$ ise $KI\perp JT$ olduğunu gösterin.
+\end{problem}
+
+\begin{answer*}
+    $\sqrt{bc}$ evirtimi ve iç açıortaya göre simetri uygulayalım. $B-C$ ve $I-J$ birbirine gider. $\angle NAI=90$ olduğu için $N$ noktası $NA\cap BC$ ye gider, bu nokta $S$ olsun. $SJ$ çaplı çember $A$ ve $D$ den geçer. Bu çember, işlemin sonucunda $NI$ doğrusunda gider. Bu yüzden $T$ noktası hem $BC$ üzerinde hem de $NI$ üzerinde olduğu için $D$ ye gider. $\angle ADI=\alpha$ diyelim. $\angle AKI=2\alpha$ ve $\angle AIK=90-\alpha$ olur. $D$ noktası $T$ ye gittiği için, $D$ nin $AI$ ya göre simetriğine $E$ dersek, sadece $\sqrt{bc}$ evirtimi kullansaydık, $E-T$ ve $I-J$ birbirine giderdi. Bu yüzden $E,T,I,J$ çembersel olur ve $\angle TJI=\angle AEI=\angle ADI=\alpha$ olur ve $\angle AIK=90-\alpha$ olduğu için $KI\perp JT$ olur. 
+\end{answer*}
+
+% kaynaklar
+% file:///Users/hakan/Desktop/main/mathematics/olympiad/ACGN/Geometry/Inversion-Homothety-Harmonic/Inversions.pdf
+% file:///Users/hakan/Desktop/main/mathematics/olympiad/ACGN/Geometry/Inversion-Homothety-Harmonic/Inversion%20V.pdf
+% file:///Users/hakan/Desktop/main/mathematics/olympiad/ACGN/Geometry/Inversion-Homothety-Harmonic/Inversion%20II.pdf
+
+% daha fazla çözümlü soru için: file:///Users/hakan/Desktop/main/mathematics/olympiad/ACGN/Geometry/Inversion-Homothety-Harmonic/Inversion%20-%20Dus%CC%8Can%20Djukic%CC%81%20-%20imomath.pdf
+% daha fazla soru için: file:///Users/hakan/Desktop/main/mathematics/olympiad/ACGN/Geometry/Inversion-Homothety-Harmonic/Inversion%20III.pdf
+
+
+
+\end{document}
